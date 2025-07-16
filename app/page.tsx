@@ -63,29 +63,30 @@ export default function Home() {
       {/* Subheadline with entrance animation */}
       <MotionEffect fade slide={{ direction: "up", offset: 40 }} delay={0.1}>
         <div className="text-xl md:text-2xl text-center text-muted-foreground font-medium mb-8 max-w-2xl">
-          <ShimmeringText text="Ponno combines social commerce, inventory management, POS, and marketing into one powerful platform.<span> No tech skills required.</span>" />
+          <div className="mb-2">
+            <ShimmeringText text="Ponno combines social commerce, inventory management, POS, and marketing into one powerful platform." />
+          </div>
+          <HighlightText
+            text="No tech skills required."
+            className="  text-blue-600 text-xl md:text-2xl font-semibold"
+          />
         </div>
       </MotionEffect>
 
       {/* Email waitlist form (always visible, animated) */}
       <form
-        className="flex w-full max-w-xl gap-2 flex-col sm:flex-row mb-10 animate-pulse"
+        className="mb-10 flex justify-center w-full max-w-xl"
         onSubmit={(e) => {
           e.preventDefault();
           accessUserRef.current?.open();
         }}
       >
-        <input
-          type="email"
-          placeholder="Enter your email"
-          required
-          className="text-lg h-14 px-4 flex-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white/80 shadow-md transition-all duration-200"
-        />
         <Button
           type="submit"
-          className="h-14 px-6 text-lg font-semibold bg-blue-600 text-white rounded-md hover:bg-blue-700 transition shadow-md animate-shimmer active:scale-95"
+          className="h-14 px-8 text-lg font-semibold bg-blue-600 text-white rounded-full hover:bg-blue-700 transition shadow-md flex items-center gap-2 animate-pulse"
         >
           <SplittingText text="Join Waitlist" type="words" />
+          <span className="animate-bounce">😃</span>
         </Button>
       </form>
 
@@ -195,43 +196,39 @@ export default function Home() {
               accessUserRef.current?.open();
             }}
           >
-            <input
-              type="email"
-              placeholder="Enter your email"
-              required
-              className="text-lg h-14 px-4 flex-1 rounded-md border-none focus:outline-none focus:ring-2 focus:ring-white bg-white/80 shadow-md"
-            />
             <Button
               type="submit"
               className="h-14 px-8 text-lg font-semibold bg-white text-blue-700 rounded-md hover:bg-blue-100 transition shadow-md flex items-center gap-2 active:scale-95"
             >
-              Get Early Access
+              <HighlightText
+                text="Get Early Access"
+                className="text-m font-semibold px-4 py-1 bg-blue-100   animate-pulse bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600"
+              />
               <span className="animate-bounce">⚡</span>
             </Button>
           </form>
         </MotionEffect>
       </section>
 
-      {/* Footer */}
-      <footer className="w-full bg-gray-900 text-white py-10 flex flex-col items-center mt-0">
+      <footer className="w-full bg-gray-900 text-white py-10 flex flex-col items-center gap-4">
         <div className="w-full max-w-xl flex justify-center">
           <Button
             type="button"
-            variant="outline"
-            className="h-14 px-8 text-lg font-semibold border-white text-white bg-white/10 hover:bg-white/20 transition shadow-md relative overflow-hidden animate-pulse active:scale-95"
             onClick={() => contactUsRef.current?.open()}
+            className="h-12 px-6 text-lg font-semibold border border-white text-white bg-white/10 hover:bg-white/20 transition shadow-md rounded-full flex items-center gap-2 animate-pulse"
           >
-            <span className="relative z-10 flex items-center gap-2">
-              <span>📩</span>
-              <span>Contact Us</span>
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 font-semibold">
+              📩 Contact Us
             </span>
           </Button>
         </div>
 
-        <div className="text-2xl font-bold mb-2">Ponno</div>
-        <div className="mb-2 text-lg">Your business, simplified.</div>
+        {/* Branding */}
+        <div className="text-2xl font-bold">Ponno</div>
+        <div className="text-lg text-gray-300">Your business, simplified.</div>
 
-        <div className="text-sm text-gray-400">
+        {/* Copyright */}
+        <div className="text-sm text-gray-500">
           © {new Date().getFullYear()} Ponno. All rights reserved.
         </div>
       </footer>
