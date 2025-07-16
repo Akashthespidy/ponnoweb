@@ -1,0 +1,52 @@
+{
+  "features": [
+    {
+      "title": "Unified Social Commerce",
+      "description": "Handle Facebook, Instagram, WhatsApp orders and support from one dashboard. Your customers can buy directly through chat.",
+      "icon": "MessageCircle",
+      "color": "#e0e7ff"
+    },
+    {
+      "title": "Seamless Store Integration",
+      "description": "Connect WordPress or Shopify in clicks. Auto-sync products, inventory, and orders without any coding.",
+      "icon": "ShoppingCart",
+      "color": "#d1fae5"
+    },
+    {
+      "title": "Smart Inventory Management",
+      "description": "Real-time stock tracking, low-stock alerts, and bulk editing. Never run out of bestsellers again.",
+      "icon": "BarChart2",
+      "color": "#f3e8ff"
+    },
+    {
+      "title": "Complete POS Solution",
+      "description": "Sell in-person and online with the same system. Accept payments, print receipts, track everything.",
+      "icon": "CreditCard",
+      "color": "#fef3c7"
+    },
+    {
+      "title": "Social Media Automation",
+      "description": "Schedule posts across all platforms. AI suggests optimal times and hashtags for maximum engagement.",
+      "icon": "Calendar",
+      "color": "#fce7f3"
+    },
+    {
+      "title": "AI Product Photography",
+      "description": "Generate professional product photos without expensive shoots. Perfect images for every listing.",
+      "icon": "Camera",
+      "color": "#e0e7ff"
+    },
+    {
+      "title": "No-Code Website Builder",
+      "description": "Build beautiful online stores with drag-and-drop. Custom domain, mobile-ready, launch in minutes.",
+      "icon": "Globe",
+      "color": "#d1fae5"
+    },
+    {
+      "title": "Customer Retention Tools",
+      "description": "Abandoned cart recovery, loyalty programs, and AI-powered product recommendations that actually work.",
+      "icon": "Heart",
+      "color": "#fee2e2"
+    }
+  ]
+} 
