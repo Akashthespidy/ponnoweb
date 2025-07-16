@@ -1,22 +1,22 @@
 // Landing page for Ponno using animated UI components
-'use client';
+"use client";
 
-import { HighlightText } from '@/components/animate-ui/text/highlight';
-import { RollingText } from '@/components/animate-ui/text/rolling';
-import { SplittingText } from '@/components/animate-ui/text/splitting';
+import { HighlightText } from "@/components/animate-ui/text/highlight";
+import { RollingText } from "@/components/animate-ui/text/rolling";
+import { SplittingText } from "@/components/animate-ui/text/splitting";
 import {
   InputButtonProvider,
   InputButtonInput,
   InputButtonSubmit,
-} from '@/components/animate-ui/buttons/input';
-import { MotionEffect } from '@/components/animate-ui/effects/motion-effect';
-import { MotionHighlight } from '@/components/animate-ui/effects/motion-highlight';
-import * as LucideIcons from 'lucide-react';
-import { useEffect, useState, useRef } from 'react';
-import { ShimmeringText } from '@/components/animate-ui/text/shimmering';
-import { Button } from '@/components/ui/button';
-import AccessUser, { AccessUserHandle } from '@/components/AccessUser';
-import ContactUs, { ContactUsHandle } from '@/components/ContactUs';
+} from "@/components/animate-ui/buttons/input";
+import { MotionEffect } from "@/components/animate-ui/effects/motion-effect";
+import { MotionHighlight } from "@/components/animate-ui/effects/motion-highlight";
+import * as LucideIcons from "lucide-react";
+import { useEffect, useState, useRef } from "react";
+import { ShimmeringText } from "@/components/animate-ui/text/shimmering";
+import { Button } from "@/components/ui/button";
+import AccessUser, { AccessUserHandle } from "@/components/AccessUser";
+import ContactUs, { ContactUsHandle } from "@/components/ContactUs";
 
 type Feature = {
   title: string;
@@ -28,7 +28,7 @@ type Feature = {
 export default function Home() {
   const [features, setFeatures] = useState<Feature[]>([]);
   useEffect(() => {
-    import('../data/data.json').then((mod) => {
+    import("../data/data.json").then((mod) => {
       setFeatures(mod.features || []);
     });
   }, []);
@@ -51,7 +51,7 @@ export default function Home() {
       </div>
 
       {/* Main headline with entrance animation */}
-      <MotionEffect fade slide={{ direction: 'up', offset: 40 }}>
+      <MotionEffect fade slide={{ direction: "up", offset: 40 }}>
         <h1 className="text-5xl md:text-7xl font-bold text-center mb-2 leading-tight">
           <RollingText text="Your Business," className="block" />
           <span className="block text-primary mt-2">
@@ -61,18 +61,16 @@ export default function Home() {
       </MotionEffect>
 
       {/* Subheadline with entrance animation */}
-      <MotionEffect fade slide={{ direction: 'up', offset: 40 }} delay={0.1}>
+      <MotionEffect fade slide={{ direction: "up", offset: 40 }} delay={0.1}>
         <div className="text-xl md:text-2xl text-center text-muted-foreground font-medium mb-8 max-w-2xl">
-          <ShimmeringText
-            text="Ponno combines social commerce, inventory management, POS, and marketing into one powerful platform. No tech skills required."
-          />
+          <ShimmeringText text="Ponno combines social commerce, inventory management, POS, and marketing into one powerful platform.<span> No tech skills required.</span>" />
         </div>
       </MotionEffect>
 
       {/* Email waitlist form (always visible, animated) */}
       <form
         className="flex w-full max-w-xl gap-2 flex-col sm:flex-row mb-10 animate-pulse"
-        onSubmit={e => {
+        onSubmit={(e) => {
           e.preventDefault();
           accessUserRef.current?.open();
         }}
@@ -95,53 +93,61 @@ export default function Home() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8 w-full max-w-4xl text-center">
         <div className="flex flex-col items-center">
           <span className="flex items-center justify-center w-10 h-10 rounded-full bg-green-100 text-green-600 text-xl mb-2 shadow">
-  ✓
-</span>
+            ✓
+          </span>
 
-          <span className="font-medium">Save 10+ hours per week on manual tasks</span>
+          <span className="font-medium">
+            Save 10+ hours per week on manual tasks
+          </span>
         </div>
         <div className="flex flex-col items-center">
           <span className="flex items-center justify-center w-10 h-10 rounded-full bg-green-100 text-green-600 text-xl mb-2 shadow">
-  ✓
-</span>
-          <span className="font-medium">Increase sales by 40% with unified commerce</span>
+            ✓
+          </span>
+          <span className="font-medium">
+            Increase sales by 40% with unified commerce
+          </span>
         </div>
         <div className="flex flex-col items-center">
           <span className="flex items-center justify-center w-10 h-10 rounded-full bg-green-100 text-green-600 text-xl mb-2 shadow">
-  ✓
-</span>
+            ✓
+          </span>
           <span className="font-medium">Reduce cart abandonment by 60%</span>
         </div>
         <div className="flex flex-col items-center">
           <span className="flex items-center justify-center w-10 h-10 rounded-full bg-green-100 text-green-600 text-xl mb-2 shadow">
-  ✓
-</span>
+            ✓
+          </span>
           <span className="font-medium">Automate 80% of customer support</span>
         </div>
       </div>
 
       {/* Features Section 2 (unchanged) */}
       <section className="w-full max-w-6xl mx-auto mt-24 px-2 md:px-0">
-        <MotionEffect fade slide={{ direction: 'up', offset: 40 }}>
+        <MotionEffect fade slide={{ direction: "up", offset: 40 }}>
           <h2 className="text-3xl md:text-5xl font-bold text-center mb-3">
             Everything you need to grow your business
           </h2>
           <p className="text-center text-lg text-muted-foreground mb-10 max-w-2xl mx-auto">
-            Stop juggling multiple tools. Ponno brings all your business operations into one intuitive platform.
+            Stop juggling multiple tools. Ponno brings all your business
+            operations into one intuitive platform.
           </p>
         </MotionEffect>
         <MotionHighlight>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {features.length === 0 ? (
-              <div className="col-span-full text-center text-gray-400 py-12">Loading features...</div>
+              <div className="col-span-full text-center text-gray-400 py-12">
+                Loading features...
+              </div>
             ) : (
               features.map((feature, idx) => {
-                const Icon = (LucideIcons as any)[feature.icon] || LucideIcons.Circle;
+                const Icon =
+                  (LucideIcons as any)[feature.icon] || LucideIcons.Circle;
                 return (
                   <MotionEffect
                     key={feature.title}
                     fade
-                    slide={{ direction: 'up', offset: 40 }}
+                    slide={{ direction: "up", offset: 40 }}
                     delay={idx * 0.08}
                   >
                     <div
@@ -172,61 +178,62 @@ export default function Home() {
 
       {/* Animated Call-to-Action Section */}
       <section className="w-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 py-24 mt-24 flex flex-col items-center justify-center">
-  <MotionEffect fade zoom slide={{ direction: 'up', offset: 40 }}>
-    <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-4 drop-shadow-lg">
-      Ready to transform your business?
-    </h2>
-    <p className="text-center text-xl text-white/90 mb-10 max-w-2xl mx-auto">
-      Join thousands of business owners who are waiting to experience the future of commerce management.
-    </p>
+        <MotionEffect fade zoom slide={{ direction: "up", offset: 40 }}>
+          <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-4 drop-shadow-lg">
+            Ready to transform your business?
+          </h2>
+          <p className="text-center text-xl text-white/90 mb-10 max-w-2xl mx-auto">
+            Join thousands of business owners who are waiting to experience the
+            future of commerce management.
+          </p>
 
-    {/* Email form */}
-    <form
-      className="flex flex-col sm:flex-row gap-4 items-center justify-center w-full max-w-xl mx-auto mb-6"
-      onSubmit={e => {
-        e.preventDefault();
-        accessUserRef.current?.open();
-      }}
-    >
-      <input
-        type="email"
-        placeholder="Enter your email"
-        required
-        className="text-lg h-14 px-4 flex-1 rounded-md border-none focus:outline-none focus:ring-2 focus:ring-white bg-white/80 shadow-md"
-      />
-      <Button
-        type="submit"
-        className="h-14 px-8 text-lg font-semibold bg-white text-blue-700 rounded-md hover:bg-blue-100 transition shadow-md flex items-center gap-2 active:scale-95"
-      >
-        Get Early Access
-        <span className="animate-bounce">⚡</span>
-      </Button>
-    </form>
-
-  </MotionEffect>
-</section>
-
+          {/* Email form */}
+          <form
+            className="flex flex-col sm:flex-row gap-4 items-center justify-center w-full max-w-xl mx-auto mb-6"
+            onSubmit={(e) => {
+              e.preventDefault();
+              accessUserRef.current?.open();
+            }}
+          >
+            <input
+              type="email"
+              placeholder="Enter your email"
+              required
+              className="text-lg h-14 px-4 flex-1 rounded-md border-none focus:outline-none focus:ring-2 focus:ring-white bg-white/80 shadow-md"
+            />
+            <Button
+              type="submit"
+              className="h-14 px-8 text-lg font-semibold bg-white text-blue-700 rounded-md hover:bg-blue-100 transition shadow-md flex items-center gap-2 active:scale-95"
+            >
+              Get Early Access
+              <span className="animate-bounce">⚡</span>
+            </Button>
+          </form>
+        </MotionEffect>
+      </section>
 
       {/* Footer */}
       <footer className="w-full bg-gray-900 text-white py-10 flex flex-col items-center mt-0">
         <div className="w-full max-w-xl flex justify-center">
-  <Button
-    type="button"
-    variant="outline"
-    className="h-14 px-8 text-lg font-semibold border-white text-white bg-white/10 hover:bg-white/20 transition shadow-md relative overflow-hidden animate-pulse active:scale-95"
-    onClick={() => contactUsRef.current?.open()}
-  >
-    <span className="relative z-10 flex items-center gap-2">
-      <span>📩</span>
-      <span>Contact Us</span>
-    </span>
-  </Button>
-</div>
+          <Button
+            type="button"
+            variant="outline"
+            className="h-14 px-8 text-lg font-semibold border-white text-white bg-white/10 hover:bg-white/20 transition shadow-md relative overflow-hidden animate-pulse active:scale-95"
+            onClick={() => contactUsRef.current?.open()}
+          >
+            <span className="relative z-10 flex items-center gap-2">
+              <span>📩</span>
+              <span>Contact Us</span>
+            </span>
+          </Button>
+        </div>
 
         <div className="text-2xl font-bold mb-2">Ponno</div>
         <div className="mb-2 text-lg">Your business, simplified.</div>
-        
-        <div className="text-sm text-gray-400">© {new Date().getFullYear()} Ponno. All rights reserved.</div>
+
+        <div className="text-sm text-gray-400">
+          © {new Date().getFullYear()} Ponno. All rights reserved.
+        </div>
       </footer>
     </main>
   );
