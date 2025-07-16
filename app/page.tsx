@@ -17,6 +17,7 @@ import { ShimmeringText } from "@/components/animate-ui/text/shimmering";
 import { Button } from "@/components/ui/button";
 import AccessUser, { AccessUserHandle } from "@/components/AccessUser";
 import ContactUs, { ContactUsHandle } from "@/components/ContactUs";
+import { WritingText } from "@/components/animate-ui/text/writing";
 
 type Feature = {
   title: string;
@@ -66,9 +67,9 @@ export default function Home() {
           <div className="mb-2">
             <ShimmeringText text="Ponno combines social commerce, inventory management, POS, and marketing into one powerful platform." />
           </div>
-          <HighlightText
+          <WritingText
             text="No tech skills required."
-            className="  text-blue-600 text-xl md:text-2xl font-semibold"
+            className="text-blue-600 text-xl md:text-2xl font-semibold"
           />
         </div>
       </MotionEffect>
@@ -83,10 +84,14 @@ export default function Home() {
       >
         <Button
           type="submit"
-          className="h-14 px-8 text-lg font-semibold bg-blue-600 text-white rounded-full hover:bg-blue-700 transition shadow-md flex items-center gap-2 animate-pulse"
+          className="h-14 px-8 text-lg font-semibold bg-blue-600 text-white rounded-md hover:bg-blue-700 transition shadow-md flex items-center gap-2"
         >
-          <SplittingText text="Join Waitlist" type="words" />
-          <span className="animate-bounce">😃</span>
+          <SplittingText
+            text="Join Waitlist"
+            type="words"
+            className="animate-pulse"
+          />
+          <span>😃</span>
         </Button>
       </form>
 
@@ -162,8 +167,8 @@ export default function Home() {
                       >
                         <Icon className="w-6 h-6 text-gray-700" />
                       </span>
-                      <h3 className="font-semibold text-lg mb-1">
-                        {feature.title}
+                      <h3 className="font-semibold text-m mb-1">
+                        <WritingText text={feature.title} />
                       </h3>
                       <p className="text-gray-500 text-sm leading-relaxed">
                         {feature.description}
