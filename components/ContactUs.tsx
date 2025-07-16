@@ -1,7 +1,12 @@
-import React, { useState, useImperativeHandle, forwardRef } from 'react';
-import { createPortal } from 'react-dom';
-import { MotionEffect } from '@/components/animate-ui/effects/motion-effect';
-import { Button } from '@/components/ui/button';
+import React, {
+  useState,
+  useImperativeHandle,
+  forwardRef,
+  useEffect,
+} from "react";
+import { createPortal } from "react-dom";
+import { MotionEffect } from "@/components/animate-ui/effects/motion-effect";
+import { Button } from "@/components/ui/button";
 
 export type ContactUsHandle = {
   open: () => void;
@@ -12,10 +17,10 @@ const ContactUs = forwardRef<ContactUsHandle>((props, ref) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [form, setForm] = useState({
-    email: '',
-    message: '',
+    email: "",
+    message: "",
   });
 
   useImperativeHandle(ref, () => ({
@@ -23,26 +28,36 @@ const ContactUs = forwardRef<ContactUsHandle>((props, ref) => {
     close: () => setOpen(false),
   }));
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (success) {
+      timer = setTimeout(() => setOpen(false), 1500);
+    }
+    return () => clearTimeout(timer);
+  }, [success]);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setError("");
     setSuccess(false);
     try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      if (!res.ok) throw new Error('Failed to send message');
+      if (!res.ok) throw new Error("Failed to send message");
       setSuccess(true);
-      setForm({ email: '', message: '' });
+      setForm({ email: "", message: "" });
     } catch (err: any) {
-      setError(err.message || 'Something went wrong');
+      setError(err.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -52,7 +67,7 @@ const ContactUs = forwardRef<ContactUsHandle>((props, ref) => {
 
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <MotionEffect fade zoom slide={{ direction: 'up', offset: 40 }}>
+      <MotionEffect fade zoom slide={{ direction: "up", offset: 40 }}>
         <div className="bg-white rounded-xl shadow-xl p-8 w-full max-w-md relative animate-fade-in">
           <button
             className="absolute top-3 right-3 text-gray-400 hover:text-gray-700 text-2xl"
@@ -62,7 +77,9 @@ const ContactUs = forwardRef<ContactUsHandle>((props, ref) => {
             ×
           </button>
           <h3 className="text-2xl font-bold mb-2 text-center">Contact Us</h3>
-          <p className="mb-6 text-center text-gray-500">We'd love to hear from you. Send us a message!</p>
+          <p className="mb-6 text-center text-gray-500">
+            We'd love to hear from you. Send us a message!
+          </p>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <input
               type="email"
@@ -81,10 +98,18 @@ const ContactUs = forwardRef<ContactUsHandle>((props, ref) => {
               onChange={handleChange}
               className="border rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[80px]"
             />
-            <Button type="submit" className="w-full h-12 mt-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition animate-shimmer" disabled={loading}>
-              {loading ? 'Sending...' : 'Send Message'}
+            <Button
+              type="submit"
+              className="w-full h-12 mt-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition animate-shimmer"
+              disabled={loading}
+            >
+              {loading ? "Sending..." : "Send Message"}
             </Button>
-            {success && <div className="text-green-600 text-center">Message sent! We'll get back to you soon.</div>}
+            {success && (
+              <div className="text-green-600 text-center">
+                Message sent! We'll get back to you soon.
+              </div>
+            )}
             {error && <div className="text-red-600 text-center">{error}</div>}
           </form>
         </div>
@@ -94,5 +119,5 @@ const ContactUs = forwardRef<ContactUsHandle>((props, ref) => {
   );
 });
 
-ContactUs.displayName = 'ContactUs';
-export default ContactUs; 
+ContactUs.displayName = "ContactUs";
+export default ContactUs;
