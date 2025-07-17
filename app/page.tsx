@@ -4,6 +4,7 @@
 import { HighlightText } from "@/components/animate-ui/text/highlight";
 import { RollingText } from "@/components/animate-ui/text/rolling";
 import { SplittingText } from "@/components/animate-ui/text/splitting";
+import { motion } from "framer-motion";
 import {
   InputButtonProvider,
   InputButtonInput,
@@ -18,6 +19,8 @@ import { Button } from "@/components/ui/button";
 import AccessUser, { AccessUserHandle } from "@/components/AccessUser";
 import ContactUs, { ContactUsHandle } from "@/components/ContactUs";
 import { WritingText } from "@/components/animate-ui/text/writing";
+import ShinyText from "@/components/ShinyText/ShinyText";
+import { RotatingText } from "@/components/animate-ui/text/rotating";
 
 type Feature = {
   title: string;
@@ -50,26 +53,50 @@ export default function Home() {
           className="text-sm font-semibold px-4 py-1 bg-blue-100 rounded-full border border-blue-300 shadow-sm animate-pulse bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-500 to-purple-600"
         />
       </div>
+      <div className="mb-8 text-center">
+        <ShinyText
+          text="Ponno"
+          className="text-5xl md:text-6xl text-blue-600 font-bold mb-2"
+        />
+        <RotatingText
+          text={["Smart Solution", "Smart Business"]}
+          className="text-2xl md:text-3xl font-semibold text-gray-700"
+        />
+      </div>
 
       {/* Main headline with entrance animation */}
       <MotionEffect fade slide={{ direction: "up", offset: 40 }}>
-        <h1 className="text-5xl md:text-7xl font-bold text-center mb-2 leading-tight">
-          <RollingText text="Your Business," className="block" />
-          <span className="block text-primary mt-2">
-            <RollingText text="Simplified" className="block text-blue-600" />
-          </span>
-        </h1>
+        <div className="relative inline-block">
+          {/* Surprise Square */}
+          <motion.div
+            initial={{ scale: 0, opacity: 0, rotate: 0 }}
+            animate={{ scale: 1.2, opacity: 0.2, rotate: 45 }}
+            exit={{ scale: 0, opacity: 0 }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
+            className="absolute top-1/2 left-1/2 w-32 h-32 bg-blue-500 rounded-lg -translate-x-1/2 -translate-y-1/2 z-0"
+          />
+
+          {/* Headline on top */}
+          <h1 className="relative z-10 text-5xl md:text-7xl font-bold text-center mb-2 leading-tight">
+            <RollingText text="Your Business," className="block" />
+            <span className="block text-primary mt-2">
+              <RollingText text="Simplified" className="block text-blue-600" />
+            </span>
+          </h1>
+        </div>
       </MotionEffect>
 
-      {/* Subheadline with entrance animation */}
       <MotionEffect fade slide={{ direction: "up", offset: 40 }} delay={0.1}>
-        <div className="text-xl md:text-2xl text-center text-muted-foreground font-medium mb-8 max-w-2xl">
-          <div className="mb-2">
-            <ShimmeringText text="Ponno combines social commerce, inventory management, POS, and marketing into one powerful platform." />
+        <div className="text-xl md:text-2xl text-center text-muted-foreground font-medium mb-8 max-w-2xl whitespace-pre-wrap">
+          <div className="mb-2 whitespace-normal">
+            <ShimmeringText
+              text="Ponno combines social commerce, inventory management, POS, and marketing into one powerful platform."
+              className="inline-block"
+            />
           </div>
           <WritingText
             text="No tech skills required."
-            className="text-blue-600 text-xl md:text-2xl font-semibold"
+            className="text-blue-600 text-xl md:text-2xl font-semibold inline-block whitespace-nowrap"
           />
         </div>
       </MotionEffect>
