@@ -52,22 +52,22 @@ export default function Home() {
       <div className="relative z-10">
         {/* Header */}
         <MotionHighlight>
-          <header className="sticky top-0 z-[100] flex items-center justify-between border-b border-white/10 px-6 md:px-10 py-3 backdrop-blur-md bg-white/5">
-            <div className="flex items-center gap-4">
+          <header className="sticky top-0 z-[100] flex flex-col md:flex-row items-center justify-between border-b border-white/10 px-4 sm:px-6 md:px-10 py-3 backdrop-blur-md bg-white/5 gap-2 md:gap-0">
+            <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-start">
               <div className="size-5"></div>
               <span className="text-white text-lg font-extrabold">Ponno</span>
             </div>
 
-            <div className="absolute left-1/2 transform -translate-x-1/2">
-              <span className="inline-flex items-center bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-1 rounded-full text-sm font-medium shadow-lg">
+            <div className="relative w-full md:w-auto flex justify-center my-2 md:my-0">
+              <span className="inline-flex items-center bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-3 md:px-4 py-1 rounded-full text-xs md:text-sm font-medium shadow-lg">
                 🚀 Launching Soon
               </span>
             </div>
 
-            <nav className="flex justify-end">
+            <nav className="flex w-full md:w-auto justify-end">
               <Button
                 onClick={() => accessUserRef.current?.open()}
-                className="h-10 px-4 bg-white text-black text-sm font-bold hover:bg-white/90 transition-all"
+                className="h-10 px-4 w-full md:w-auto bg-white text-black text-sm font-bold hover:bg-white/90 transition-all"
               >
                 Get started
               </Button>
@@ -77,8 +77,8 @@ export default function Home() {
 
         {/* Hero */}
         <MotionHighlight>
-          <section className="relative py-24 px-4 text-center">
-            <h1 className="text-white text-5xl md:text-7xl font-extrabold leading-tight mb-4">
+          <section className="relative py-16 md:py-24 px-2 sm:px-4 text-center">
+            <h1 className="text-white text-3xl sm:text-5xl md:text-7xl font-extrabold leading-tight mb-4">
               Business Operations,
               <br />
               <span className="inline-block w-full md:w-auto">
@@ -86,7 +86,7 @@ export default function Home() {
               </span>
             </h1>
 
-            <p className="text-white/80 text-xl md:text-2xl font-light max-w-2xl mx-auto mb-8">
+            <p className="text-white/80 text-base sm:text-xl md:text-2xl font-light max-w-2xl mx-auto mb-8">
               Ponno streamlines your workflow with intuitive tools that unify
               sales, operations, and customer management in one powerful
               platform.
@@ -103,11 +103,11 @@ export default function Home() {
                 type="email"
                 required
                 placeholder="Enter your email"
-                className="flex-1 h-14 px-6 rounded-xl border border-white/20 bg-white/10 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 transition-all"
+                className="flex-1 h-12 sm:h-14 px-4 sm:px-6 rounded-xl border border-white/20 bg-white/10 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 transition-all w-full"
               />
               <Button
                 type="submit"
-                className="h-14 px-8 rounded-xl bg-white text-black text-lg font-bold hover:bg-white/90 transition-all"
+                className="h-12 sm:h-14 px-6 sm:px-8 rounded-xl bg-white text-black text-base sm:text-lg font-bold hover:bg-white/90 transition-all w-full sm:w-auto"
               >
                 Get started
               </Button>
@@ -116,19 +116,19 @@ export default function Home() {
         </MotionHighlight>
 
         {/* Features Section */}
-        <section className="py-20 px-4">
+        <section className="py-16 md:py-20 px-2 sm:px-4">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-white text-5xl md:text-7xl font-extrabold">
+            <div className="text-center mb-8 md:mb-12">
+              <h2 className="text-white text-3xl sm:text-5xl md:text-7xl font-extrabold">
                 Powerful Features
               </h2>
-              <p className="text-white/70 max-w-xl mx-auto">
+              <p className="text-white/70 max-w-xl mx-auto text-base sm:text-lg">
                 Everything you need to manage and grow your business efficiently
               </p>
             </div>
 
             <Swiper
-              className="feature-carousel"
+              className="feature-carousel px-2 sm:px-0"
               effect="coverflow"
               grabCursor
               centeredSlides
@@ -153,19 +153,19 @@ export default function Home() {
                 const Icon =
                   (LucideIcons as any)[feature.icon] || LucideIcons.Circle;
                 return (
-                  <SwiperSlide key={index} className="!w-[300px]">
+                  <SwiperSlide key={index} className="!w-[220px] sm:!w-[300px]">
                     <div
-                      className="aspect-square w-full flex flex-col justify-between p-6 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md transition-all text-white shadow-lg"
+                      className="aspect-square w-full flex flex-col justify-between p-4 sm:p-6 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md transition-all text-white shadow-lg cursor-pointer"
                       onClick={() => swiperRef.current?.slideToLoop(index)}
                     >
                       <div className={`text-${feature.color}`}>
-                        <Icon className="w-10 h-10" />
+                        <Icon className="w-8 h-8 sm:w-10 sm:h-10" />
                       </div>
                       <div>
-                        <h3 className="text-xl font-semibold mb-2">
+                        <h3 className="text-lg sm:text-xl font-semibold mb-2">
                           {feature.title}
                         </h3>
-                        <p className="text-white/70 text-sm leading-relaxed">
+                        <p className="text-white/70 text-xs sm:text-sm leading-relaxed">
                           {feature.description}
                         </p>
                       </div>
@@ -178,25 +178,25 @@ export default function Home() {
         </section>
 
         {/* Call to Action */}
-        <section className="py-20 px-4">
+        <section className="py-16 md:py-20 px-2 sm:px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-white text-4xl font-bold mb-6">
+            <h2 className="text-white text-2xl sm:text-4xl font-bold mb-4 sm:mb-6">
               Ready to transform your business?
             </h2>
-            <p className="text-white/70 text-xl mb-8 max-w-2xl mx-auto">
+            <p className="text-white/70 text-base sm:text-xl mb-6 sm:mb-8 max-w-2xl mx-auto">
               Join forward-thinking companies using Ponno to simplify operations
               and drive growth.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
               <Button
                 onClick={() => accessUserRef.current?.open()}
-                className="h-14 px-8 rounded-xl bg-white text-black text-lg font-bold hover:bg-white/90 transition-all"
+                className="h-12 sm:h-14 px-6 sm:px-8 rounded-xl bg-white text-black text-base sm:text-lg font-bold hover:bg-white/90 transition-all w-full sm:w-auto"
               >
                 Get started
               </Button>
               <Button
                 onClick={() => contactUsRef.current?.open()}
-                className="h-14 px-8 rounded-xl border border-white/20 bg-transparent text-white text-lg font-medium hover:bg-white/10 transition-all"
+                className="h-12 sm:h-14 px-6 sm:px-8 rounded-xl border border-white/20 bg-transparent text-white text-base sm:text-lg font-medium hover:bg-white/10 transition-all w-full sm:w-auto"
               >
                 Contact sales
               </Button>
@@ -205,9 +205,9 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer className="py-12 px-4 border-t border-white/10">
+        <footer className="py-8 sm:py-12 px-2 sm:px-4 border-t border-white/10">
           <div className="max-w-7xl mx-auto text-center">
-            <p className="text-white/50 text-sm">
+            <p className="text-white/50 text-xs sm:text-sm">
               © {new Date().getFullYear()} Ponno. All rights reserved.
             </p>
           </div>

@@ -68,7 +68,7 @@ const ContactUs = forwardRef<ContactUsHandle>((props, ref) => {
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <MotionEffect fade zoom slide={{ direction: "up", offset: 40 }}>
-        <div className="bg-white dark:bg-gray-900 rounded-xl shadow-xl p-8 w-full max-w-md relative animate-fade-in">
+        <div className="bg-gray-900/95 rounded-xl shadow-xl p-8 w-full max-w-md relative animate-fade-in">
           <button
             className="absolute top-3 right-3 text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 text-2xl"
             onClick={() => setOpen(false)}
