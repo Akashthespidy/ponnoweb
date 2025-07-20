@@ -30,9 +30,7 @@ export default function ThemeWrapper({
         title="Toggle theme"
         className="fixed top-4 right-4 z-50 bg-gray-200 dark:bg-gray-800 rounded-lg p-1 shadow hover:scale-110 transition h-8 w-8 flex items-center justify-center text-lg"
         onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      >
-        {theme === "dark" ? "🌙" : "🌞"}
-      </button>
+      ></button>
       {children}
     </>
   );
