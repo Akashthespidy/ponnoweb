@@ -80,18 +80,18 @@ const AccessUser = forwardRef<AccessUserHandle>((props, ref) => {
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <MotionEffect fade zoom slide={{ direction: "up", offset: 40 }}>
-        <div className="bg-gray-900/95 rounded-xl shadow-xl p-8 w-full max-w-md relative animate-fade-in">
+        <div className="bg-white rounded-xl shadow-xl p-8 w-full max-w-md relative animate-fade-in">
           <button
-            className="absolute top-3 right-3 text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 text-2xl"
+            className="absolute top-3 right-3 text-gray-400 hover:text-gray-700 text-2xl"
             onClick={() => setOpen(false)}
             aria-label="Close"
           >
             ×
           </button>
-          <h3 className="text-2xl font-bold mb-2 text-center text-gray-900 dark:text-white">
+          <h3 className="text-2xl font-bold mb-2 text-center text-gray-900">
             Get Early Access
           </h3>
-          <p className="mb-6 text-center text-gray-500 dark:text-gray-300">
+          <p className="mb-6 text-center text-gray-500">
             Tell us about your business to join the waitlist.
           </p>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
@@ -102,7 +102,7 @@ const AccessUser = forwardRef<AccessUserHandle>((props, ref) => {
               required
               value={form.email}
               onChange={handleChange}
-              className="border dark:border-gray-700 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+              className="border rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-900 placeholder-gray-400"
             />
             <input
               type="text"
@@ -111,14 +111,14 @@ const AccessUser = forwardRef<AccessUserHandle>((props, ref) => {
               required
               value={form.businessName}
               onChange={handleChange}
-              className="border dark:border-gray-700 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+              className="border rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-900 placeholder-gray-400"
             />
             <select
               name="businessCategory"
               required
               value={form.businessCategory}
               onChange={handleChange}
-              className="border dark:border-gray-700 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+              className="border rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-900"
             >
               <option value="">Select Category</option>
               {categories.map((cat) => (
@@ -133,7 +133,7 @@ const AccessUser = forwardRef<AccessUserHandle>((props, ref) => {
               required
               value={form.businessDescription}
               onChange={handleChange}
-              className="border dark:border-gray-700 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[80px] bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+              className="border rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[80px] bg-white text-gray-900 placeholder-gray-400"
             />
             <Button
               type="submit"
@@ -143,15 +143,11 @@ const AccessUser = forwardRef<AccessUserHandle>((props, ref) => {
               {loading ? "Submitting..." : "Submit"}
             </Button>
             {success && (
-              <div className="text-green-600 dark:text-green-400 text-center">
+              <div className="text-green-600 text-center">
                 Thank you! We’ll be in touch soon.
               </div>
             )}
-            {error && (
-              <div className="text-red-600 dark:text-red-400 text-center">
-                {error}
-              </div>
-            )}
+            {error && <div className="text-red-600 text-center">{error}</div>}
           </form>
         </div>
       </MotionEffect>

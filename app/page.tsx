@@ -41,6 +41,12 @@ export default function Home() {
     });
   }, []);
 
+  useEffect(() => {
+    if (swiperRef.current) {
+      swiperRef.current.autoplay?.start();
+    }
+  }, [features]);
+
   return (
     <div className="relative isolate min-h-screen overflow-hidden bg-gradient-to-br from-[#1a0140] to-[#11002b]">
       {/* Bubble Background */}
@@ -57,13 +63,11 @@ export default function Home() {
               <div className="size-5"></div>
               <span className="text-white text-lg font-extrabold">Ponno</span>
             </div>
-
             <div className="relative w-full md:w-auto flex justify-center my-2 md:my-0">
               <span className="inline-flex items-center bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-3 md:px-4 py-1 rounded-full text-xs md:text-sm font-medium shadow-lg">
                 🚀 Launching Soon
               </span>
             </div>
-
             <nav className="flex w-full md:w-auto justify-end">
               <Button
                 onClick={() => accessUserRef.current?.open()}
@@ -85,13 +89,11 @@ export default function Home() {
                 <RotatingText text={["Simplified", "Automated", "Optimized"]} />
               </span>
             </h1>
-
             <p className="text-white/80 text-base sm:text-xl md:text-2xl font-light max-w-2xl mx-auto mb-8">
               Ponno streamlines your workflow with intuitive tools that unify
               sales, operations, and customer management in one powerful
               platform.
             </p>
-
             <form
               className="flex flex-col sm:flex-row gap-3 items-center justify-center w-full max-w-lg mx-auto"
               onSubmit={(e) => {
@@ -109,7 +111,7 @@ export default function Home() {
                 type="submit"
                 className="h-12 sm:h-14 px-6 sm:px-8 rounded-xl bg-white text-black text-base sm:text-lg font-bold hover:bg-white/90 transition-all w-full sm:w-auto"
               >
-                Get started
+                Join WaitList
               </Button>
             </form>
           </section>
@@ -128,6 +130,7 @@ export default function Home() {
             </div>
 
             <Swiper
+              key={features.length} // force re-render on data load
               className="feature-carousel px-2 sm:px-0"
               effect="coverflow"
               grabCursor
