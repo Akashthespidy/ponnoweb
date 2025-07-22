@@ -246,7 +246,7 @@ function MotionHighlight<T extends string>({
                   }}
                   transition={transition}
                   className={cn(
-                    "absolute bg-black/30 opacity-80 z-0",
+                    "absolute bg-muted z-0",
                     className,
                     activeClassNameState
                   )}

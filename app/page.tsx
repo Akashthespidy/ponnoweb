@@ -3,7 +3,6 @@
 import AccessUser, { AccessUserHandle } from "@/components/AccessUser";
 import ContactUs, { ContactUsHandle } from "@/components/ContactUs";
 import { Button } from "@/components/ui/button";
-import { MotionHighlight } from "@/components/animate-ui/effects/motion-highlight";
 import { useRef, useEffect, useState } from "react";
 import * as LucideIcons from "lucide-react";
 import Link from "next/link";
@@ -49,45 +48,39 @@ export default function Home() {
   }, [features]);
 
   return (
-    <div className="relative isolate min-h-screen overflow-hidden bg-gradient-to-br from-[#1a0140] to-[#11002b]">
+    <div className="relative isolate min-h-screen overflow-hidden bg-gradient-to-br from-[#e8e4f2] via-[#f3f1fa] to-[#fcfbff]">
       {/* Bubble Background */}
       <div className="fixed inset-0 -z-50">
-        <BubbleBackground interactive className="w-full h-full" />
+        <BubbleBackground interactive className="w-full h-full opacity-20" />
       </div>
 
-      {/* Main Content */}
       <div className="relative z-10">
         {/* Header */}
-
-        <header className="sticky top-0 z-[100] flex flex-col md:flex-row items-center justify-between border-b border-white/10 px-4 sm:px-6 md:px-10 py-3 backdrop-blur-md bg-transparent gap-2 md:gap-0">
+        <header className="sticky top-0 z-[100] flex flex-col md:flex-row items-center justify-between border-b border-black/10 px-4 sm:px-6 md:px-10 py-3 backdrop-blur-md bg-transparent gap-2 md:gap-0">
           <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-start">
-            <div className="size-5"></div>
-            <span className="text-white text-lg font-extrabold">Ponno</span>
+            <div className="size-5" />
+            <span className="text-black text-lg font-extrabold">Ponno</span>
           </div>
           <div className="relative w-full md:w-auto flex justify-center my-2 md:my-0">
-            <span className="inline-flex items-center bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-3 md:px-4 py-1 rounded-full text-xs md:text-sm font-medium shadow-lg">
+            <span className="inline-flex items-center bg-black text-white px-4 py-1 rounded-full text-xs md:text-sm font-medium shadow-md">
               🚀 Launching Soon
             </span>
           </div>
           <nav className="flex w-full md:w-auto justify-end">
             <Button
               onClick={() => accessUserRef.current?.open()}
-              className="h-10 px-4 w-full md:w-auto bg-white text-black text-sm font-bold hover:bg-white/90 transition-all"
+              className="h-10 px-4 w-full md:w-auto bg-black text-white text-sm font-bold hover:bg-black/90 transition-all"
             >
               Get started
             </Button>
           </nav>
         </header>
 
-        {/* Hero */}
+        {/* Hero Section */}
         <section className="relative py-20 md:py-32 px-2 sm:px-4 text-center overflow-hidden">
-          {/* Spotlight Background (MATCHES CTA section) */}
-          <div
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[35vw] max-w-3xl max-h-[400px] rounded-full bg-gradient-to-br from-black/80 via-purple-900/70 to-blue-900/80 blur-3xl opacity-90 pointer-events-none -z-10"
-            aria-hidden="true"
-          />
+          <div className="absolute inset-0 bg-[radial-gradient(circle,_rgba(255,255,255,0.2)_0%,_transparent_100%)] blur-[160px] -z-10" />
 
-          <h1 className="text-white text-4xl sm:text-6xl md:text-7xl font-extrabold leading-tight mb-6 tracking-tight drop-shadow-2xl">
+          <h1 className="text-black text-4xl sm:text-6xl md:text-7xl font-extrabold leading-tight mb-6 tracking-tight drop-shadow">
             Business Operations,
             <br />
             <span className="inline-block w-full md:w-auto">
@@ -95,7 +88,7 @@ export default function Home() {
             </span>
           </h1>
 
-          <p className="text-white/90 text-lg sm:text-2xl md:text-3xl font-light max-w-3xl mx-auto mb-10 leading-relaxed tracking-wide">
+          <p className="text-black/90 text-lg sm:text-2xl md:text-3xl font-light max-w-3xl mx-auto mb-10 leading-relaxed tracking-wide">
             Ponno streamlines your workflow with intuitive tools that unify
             sales, operations, and customer management in one powerful platform.
           </p>
@@ -111,25 +104,25 @@ export default function Home() {
               type="email"
               required
               placeholder="Enter your email"
-              className="flex-1 h-12 sm:h-14 px-4 sm:px-6 rounded-xl border border-white/20 bg-white/10 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 transition-all w-full"
+              className="flex-1 h-12 sm:h-14 px-4 sm:px-6 rounded-xl border border-black/30 bg-white/80 text-black placeholder-black/50 focus:outline-none focus:ring-2 focus:ring-black/30 transition-all w-full backdrop-blur-sm"
             />
             <Button
               type="submit"
-              className="h-12 sm:h-14 px-6 sm:px-8 rounded-xl bg-white text-black text-base sm:text-lg font-bold hover:bg-white/90 transition-all w-full sm:w-auto"
+              className="h-12 sm:h-14 px-6 sm:px-8 rounded-xl bg-black text-white text-base sm:text-lg font-bold hover:bg-neutral-900 transition-all w-full sm:w-auto"
             >
               Join WaitList
             </Button>
           </form>
         </section>
 
-        {/* Features Section */}
+        {/* Features */}
         <section className="py-16 md:py-20 px-2 sm:px-4">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-8 md:mb-12">
-              <h2 className="text-white text-3xl sm:text-5xl md:text-7xl font-extrabold tracking-tight mb-4 md:mb-8 drop-shadow-lg">
+              <h2 className="text-black text-3xl sm:text-5xl md:text-7xl font-extrabold tracking-tight mb-4 md:mb-8 drop-shadow">
                 Powerful Features
               </h2>
-              <p className="text-white/80 max-w-2xl mx-auto text-lg sm:text-xl md:text-2xl font-medium mb-8">
+              <p className="text-black/70 max-w-2xl mx-auto text-lg sm:text-xl md:text-2xl font-medium mb-8">
                 Everything you need to manage and grow your business efficiently
               </p>
             </div>
@@ -160,13 +153,12 @@ export default function Home() {
               {features.map((feature, index) => (
                 <SwiperSlide key={index} className="!w-[420px] sm:!w-[520px]">
                   <div
-                    className="flex flex-col items-center justify-start h-full p-8 rounded-3xl border border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md transition-all text-white shadow-2xl cursor-pointer group min-h-[420px] sm:min-h-[520px]"
+                    className="flex flex-col items-center justify-start h-full p-8 rounded-3xl border border-black/10 bg-white/5 hover:bg-white/10 backdrop-blur-md transition-all text-black shadow-2xl cursor-pointer group min-h-[420px] sm:min-h-[520px]"
                     onClick={() => swiperRef.current?.slideToLoop(index)}
                     tabIndex={0}
                     role="button"
                     aria-label={`View feature: ${feature.title}`}
                   >
-                    {/* Image section */}
                     <div className="relative w-full flex-1 mb-8 rounded-3xl overflow-hidden flex items-center justify-center">
                       <Image
                         src={feature.image}
@@ -176,7 +168,6 @@ export default function Home() {
                         loading="lazy"
                       />
                     </div>
-                    {/* Title */}
                     <h3 className="text-2xl sm:text-3xl font-bold text-center leading-snug mt-4 tracking-tight">
                       {feature.title}
                     </h3>
@@ -187,31 +178,33 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Call to Action */}
-        <section className="relative py-16 md:py-24 px-2 sm:px-4 text-center overflow-hidden">
-          {/* Darker Spotlight Effect */}
+        {/* CTA Section */}
+        <section className="relative py-16 md:py-24 px-2 sm:px-4 text-center overflow-hidden bg-gradient-to-br from-purple-100 via-[#f4f4ff] to-blue-100">
           <div
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[35vw] max-w-3xl max-h-[400px] rounded-full bg-gradient-to-br from-black/80 via-purple-900/70 to-blue-900/80 blur-3xl opacity-90 pointer-events-none -z-10"
+            className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(244,244,255,0.25)_0%,_rgba(233,234,254,0.10)_40%,_transparent_120%)] blur-[100px] -z-10"
             aria-hidden="true"
           />
+
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-white text-3xl sm:text-5xl font-bold mb-6 sm:mb-10 tracking-tight drop-shadow-lg">
+            <h2 className="text-gray-900 text-3xl sm:text-5xl font-bold mb-6 sm:mb-10 tracking-tight drop-shadow-md">
               Ready to transform your business?
             </h2>
-            <p className="text-white/80 text-lg sm:text-2xl mb-8 max-w-2xl mx-auto font-light leading-relaxed">
+
+            <p className="text-gray-800 text-lg sm:text-2xl mb-8 max-w-2xl mx-auto font-light leading-relaxed">
               Join forward-thinking companies using Ponno to simplify operations
               and drive growth.
             </p>
+
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
               <Button
                 onClick={() => accessUserRef.current?.open()}
-                className="h-12 sm:h-14 px-6 sm:px-8 rounded-xl bg-white text-black text-base sm:text-lg font-bold hover:bg-white/90 transition-all w-full sm:w-auto"
+                className="h-12 sm:h-14 px-6 sm:px-8 rounded-xl bg-black text-white text-base sm:text-lg font-bold hover:bg-neutral-800 transition-all w-full sm:w-auto"
               >
                 Get started
               </Button>
               <Button
                 onClick={() => contactUsRef.current?.open()}
-                className="h-12 sm:h-14 px-6 sm:px-8 rounded-xl border border-white/20 bg-transparent text-white text-base sm:text-lg font-medium hover:bg-white/10 transition-all w-full sm:w-auto"
+                className="h-12 sm:h-14 px-6 sm:px-8 rounded-xl border border-black/10 bg-white/30 backdrop-blur-sm text-black text-base sm:text-lg font-medium hover:bg-white/50 transition-all w-full sm:w-auto"
               >
                 Contact sales
               </Button>
@@ -220,9 +213,9 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer className="py-8 sm:py-12 px-2 sm:px-4 border-t border-white/10">
+        <footer className="py-8 sm:py-12 px-2 sm:px-4 border-t border-black/10">
           <div className="max-w-7xl mx-auto text-center">
-            <p className="text-white/60 text-base sm:text-lg">
+            <p className="text-black/60 text-base sm:text-lg">
               © {new Date().getFullYear()} Ponno. All rights reserved.
             </p>
           </div>
