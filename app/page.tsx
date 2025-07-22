@@ -7,6 +7,7 @@ import { MotionHighlight } from "@/components/animate-ui/effects/motion-highligh
 import { useRef, useEffect, useState } from "react";
 import * as LucideIcons from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { BubbleBackground } from "@/components/animate-ui/backgrounds/bubble";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { RotatingText } from "@/components/animate-ui/text/rotating";
@@ -24,9 +25,9 @@ import "swiper/css/navigation";
 
 type Feature = {
   title: string;
-  description: string;
   icon: string;
   color: string;
+  image: string;
 };
 
 export default function Home() {
@@ -130,7 +131,7 @@ export default function Home() {
             </div>
 
             <Swiper
-              key={features.length} // force re-render on data load
+              key={features.length}
               className="feature-carousel px-2 sm:px-0"
               effect="coverflow"
               grabCursor
@@ -152,30 +153,32 @@ export default function Home() {
                 swiperRef.current = swiper;
               }}
             >
-              {features.map((feature, index) => {
-                const Icon =
-                  (LucideIcons as any)[feature.icon] || LucideIcons.Circle;
-                return (
-                  <SwiperSlide key={index} className="!w-[220px] sm:!w-[300px]">
-                    <div
-                      className="aspect-square w-full flex flex-col justify-between p-4 sm:p-6 rounded-2xl border border-white/10 bg-transparent hover:bg-white/10 backdrop-blur-md transition-all text-white shadow-lg cursor-pointer"
-                      onClick={() => swiperRef.current?.slideToLoop(index)}
-                    >
-                      <div className={`text-${feature.color}`}>
-                        <Icon className="w-8 h-8 sm:w-10 sm:h-10" />
-                      </div>
-                      <div>
-                        <h3 className="text-lg sm:text-xl font-semibold mb-2">
-                          {feature.title}
-                        </h3>
-                        <p className="text-white/70 text-xs sm:text-sm leading-relaxed">
-                          {feature.description}
-                        </p>
-                      </div>
+              {features.map((feature, index) => (
+                <SwiperSlide key={index} className="!w-[420px] sm:!w-[520px]">
+                  <div
+                    className="flex flex-col items-center justify-start h-full p-8 rounded-3xl border border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md transition-all text-white shadow-2xl cursor-pointer group min-h-[420px] sm:min-h-[520px]"
+                    onClick={() => swiperRef.current?.slideToLoop(index)}
+                    tabIndex={0}
+                    role="button"
+                    aria-label={`View feature: ${feature.title}`}
+                  >
+                    {/* Image section */}
+                    <div className="relative w-full flex-1 mb-8 rounded-3xl overflow-hidden flex items-center justify-center">
+                      <Image
+                        src={feature.image}
+                        alt={feature.title}
+                        fill
+                        className="object-contain w-full h-full group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                      />
                     </div>
-                  </SwiperSlide>
-                );
-              })}
+                    {/* Title */}
+                    <h3 className="text-2xl sm:text-3xl font-semibold text-center leading-snug mt-2">
+                      {feature.title}
+                    </h3>
+                  </div>
+                </SwiperSlide>
+              ))}
             </Swiper>
           </div>
         </section>
