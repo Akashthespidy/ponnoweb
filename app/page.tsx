@@ -58,7 +58,7 @@ export default function Home() {
       <div className="relative z-10">
         {/* Header */}
         <MotionHighlight>
-          <header className="sticky top-0 z-[100] flex flex-col md:flex-row items-center justify-between border-b border-white/10 px-4 sm:px-6 md:px-10 py-3 backdrop-blur-md bg-white/5 gap-2 md:gap-0">
+          <header className="sticky top-0 z-[100] flex flex-col md:flex-row items-center justify-between border-b border-white/10 px-4 sm:px-6 md:px-10 py-3 backdrop-blur-md bg-transparent gap-2 md:gap-0">
             <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-start">
               <div className="size-5"></div>
               <span className="text-white text-lg font-extrabold">Ponno</span>
@@ -158,7 +158,7 @@ export default function Home() {
                 return (
                   <SwiperSlide key={index} className="!w-[220px] sm:!w-[300px]">
                     <div
-                      className="aspect-square w-full flex flex-col justify-between p-4 sm:p-6 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md transition-all text-white shadow-lg cursor-pointer"
+                      className="aspect-square w-full flex flex-col justify-between p-4 sm:p-6 rounded-2xl border border-white/10 bg-transparent hover:bg-white/10 backdrop-blur-md transition-all text-white shadow-lg cursor-pointer"
                       onClick={() => swiperRef.current?.slideToLoop(index)}
                     >
                       <div className={`text-${feature.color}`}>
