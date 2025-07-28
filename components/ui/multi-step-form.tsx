@@ -109,12 +109,10 @@ const MultiStepForm = forwardRef<MultiStepFormHandle, MultiStepFormProps>(
 
     const saveFormData = async (data: any) => {
       try {
-        // Validate email before saving
         if (!data.email) {
           throw new Error("Email is required");
         }
 
-        // Only send fields that are present in the schema
         const allowedFields = [
           "businessName",
           "businessCategory",
@@ -148,22 +146,29 @@ const MultiStepForm = forwardRef<MultiStepFormHandle, MultiStepFormProps>(
     };
 
     const handleNextStep = async (data: any) => {
+      const currentStepFields = steps[step].fields;
+      const stepRequiredErrors = currentStepFields
+        .filter((field) => field.required && !data[field.name])
+        .map((field) => `${field.label} is required`);
+
+      if (stepRequiredErrors.length > 0) {
+        setError(stepRequiredErrors.join(", "));
+        return;
+      }
+
       const updatedData = { ...formData, ...data };
       setFormData(updatedData);
+      setError(null); // Clear previous errors
 
       try {
-        // Save data at each step
-        await saveFormData(updatedData);
-
+        await saveFormData(updatedData); // Save partial or full data
         if (step < steps.length - 1) {
           setStep(step + 1);
         } else {
           setIsComplete(true);
         }
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "Failed to save form data"
-        );
+      } catch (err: any) {
+        setError(err.message || "Failed to save form data");
       }
     };
 
@@ -205,14 +210,14 @@ const MultiStepForm = forwardRef<MultiStepFormHandle, MultiStepFormProps>(
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm">
         <div
           className={cn(
-            "bg-white/80 dark:bg-slate-950/80 backdrop-blur-lg mx-auto w-full max-w-md rounded-2xl p-8 shadow-2xl",
+            "bg-black/80 backdrop-blur-lg mx-auto w-full max-w-md rounded-2xl p-8 shadow-2xl border border-white/10",
             className
           )}
         >
           {!isComplete ? (
             <>
               <div className="mb-8">
-                <div className="mb-2 flex justify-between">
+                <div className="mb-2 flex justify-between text-white">
                   <span className="text-sm font-medium">
                     Step {step + 1} of {steps.length}
                   </span>
@@ -220,7 +225,7 @@ const MultiStepForm = forwardRef<MultiStepFormHandle, MultiStepFormProps>(
                     {Math.round(progress)}%
                   </span>
                 </div>
-                <Progress value={progress} className="h-2" />
+                <Progress value={progress} className="h-2 bg-white/20" />
               </div>
 
               <div className="mb-8 flex justify-between">
@@ -230,15 +235,15 @@ const MultiStepForm = forwardRef<MultiStepFormHandle, MultiStepFormProps>(
                       className={cn(
                         "flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold",
                         i < step
-                          ? "bg-primary text-primary-foreground"
+                          ? "bg-white text-black"
                           : i === step
-                          ? "bg-primary text-primary-foreground ring-primary/30 ring-2"
-                          : "bg-secondary text-secondary-foreground"
+                          ? "bg-white text-black ring-white/30 ring-2"
+                          : "bg-white/20 text-white"
                       )}
                     >
                       {i < step ? <CheckCircle2 className="h-4 w-4" /> : i + 1}
                     </div>
-                    <span className="mt-1 hidden text-xs sm:block">
+                    <span className="mt-1 hidden text-xs sm:block text-white">
                       {s.title}
                     </span>
                   </div>
@@ -246,7 +251,7 @@ const MultiStepForm = forwardRef<MultiStepFormHandle, MultiStepFormProps>(
               </div>
 
               {error && (
-                <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">
+                <div className="mb-4 p-3 bg-red-500/20 text-red-300 rounded-lg text-sm">
                   {error}
                 </div>
               )}
@@ -261,8 +266,10 @@ const MultiStepForm = forwardRef<MultiStepFormHandle, MultiStepFormProps>(
                   transition={{ duration: 0.3 }}
                 >
                   <div className="mb-6">
-                    <h2 className="text-xl font-bold">{steps[step].title}</h2>
-                    <p className="text-muted-foreground text-sm">
+                    <h2 className="text-xl font-bold text-white">
+                      {steps[step].title}
+                    </h2>
+                    <p className="text-white/70 text-sm">
                       {steps[step].description}
                     </p>
                   </div>
@@ -274,10 +281,10 @@ const MultiStepForm = forwardRef<MultiStepFormHandle, MultiStepFormProps>(
                   >
                     {steps[step].fields.map((field) => (
                       <div key={field.name} className="space-y-2">
-                        <Label htmlFor={field.name}>
+                        <Label htmlFor={field.name} className="text-white">
                           {field.label}
                           {field.required && (
-                            <span className="text-red-500 ml-1">*</span>
+                            <span className="text-red-400 ml-1">*</span>
                           )}
                         </Label>
                         {field.type === "select" && "options" in field ? (
@@ -285,14 +292,18 @@ const MultiStepForm = forwardRef<MultiStepFormHandle, MultiStepFormProps>(
                             id={field.name}
                             name={field.name}
                             defaultValue={formData[field.name] || ""}
-                            className="flex h-12 w-full rounded-xl border border-black/30 bg-white/80 px-4 text-black placeholder-black/50 transition-all focus:outline-none focus:ring-2 focus:ring-black/30 backdrop-blur-sm"
+                            className="flex h-12 w-full rounded-xl border border-white/30 bg-white/10 px-4 text-white placeholder-white/50 transition-all focus:outline-none focus:ring-2 focus:ring-white/30 backdrop-blur-sm"
                             required={field.required}
                           >
-                            <option value="" disabled>
+                            <option value="" disabled className="text-black">
                               {field.placeholder}
                             </option>
                             {field.options?.map((option: string) => (
-                              <option key={option} value={option}>
+                              <option
+                                key={option}
+                                value={option}
+                                className="text-black"
+                              >
                                 {option}
                               </option>
                             ))}
@@ -305,7 +316,7 @@ const MultiStepForm = forwardRef<MultiStepFormHandle, MultiStepFormProps>(
                             placeholder={field.placeholder}
                             defaultValue={formData[field.name] || ""}
                             required={field.required}
-                            className="flex h-12 w-full rounded-xl border border-black/30 bg-white/80 px-4 text-black placeholder-black/50 transition-all focus:outline-none focus:ring-2 focus:ring-black/30 backdrop-blur-sm"
+                            className="flex h-12 w-full rounded-xl border border-white/30 bg-white/10 px-4 text-white placeholder-white/50 transition-all focus:outline-none focus:ring-2 focus:ring-white/30 backdrop-blur-sm"
                           />
                         )}
                       </div>
@@ -317,14 +328,17 @@ const MultiStepForm = forwardRef<MultiStepFormHandle, MultiStepFormProps>(
                         variant="outline"
                         onClick={handlePrevStep}
                         disabled={step === 0}
-                        className={cn(step === 0 && "invisible")}
+                        className={cn(
+                          step === 0 && "invisible",
+                          "text-white border-white/30 hover:bg-white/10 hover:text-white"
+                        )}
                       >
                         <ArrowLeft className="mr-2 h-4 w-4" /> Back
                       </Button>
                       <Button
                         type="submit"
                         disabled={isSubmitting}
-                        className="text-white hover:text-white"
+                        className="bg-white text-black hover:bg-white/90 hover:text-black"
                       >
                         {step === steps.length - 1 ? (
                           isSubmitting ? (
@@ -350,20 +364,20 @@ const MultiStepForm = forwardRef<MultiStepFormHandle, MultiStepFormProps>(
               transition={{ duration: 0.5 }}
               className="py-10 text-center"
             >
-              <div className="bg-primary/10 mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full">
-                <CheckCircle2 className="text-primary h-8 w-8" />
+              <div className="bg-white/10 mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full">
+                <CheckCircle2 className="text-white h-8 w-8" />
               </div>
-              <h2 className="mb-2 text-2xl font-bold">
+              <h2 className="mb-2 text-2xl font-bold text-white">
                 You're on the waitlist!
               </h2>
-              <p className="text-muted-foreground mb-6">
+              <p className="text-white/70 mb-6">
                 Thank you for joining. We'll notify you when we launch.
               </p>
               <Button
                 onClick={() => {
                   setIsOpen(false);
                 }}
-                className="text-white hover:text-white"
+                className="bg-white text-black hover:bg-white/90 hover:text-black"
               >
                 Close
               </Button>

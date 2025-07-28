@@ -13,6 +13,17 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Email is required" }, { status: 400 });
     }
 
+    // Allow partial save: only enforce name validation if provided
+    if (
+      ("firstName" in body || "lastName" in body) &&
+      (!body.firstName || !body.lastName)
+    ) {
+      return NextResponse.json(
+        { error: "First name and last name are required" },
+        { status: 400 }
+      );
+    }
+
     // Insert or update in database
     const existingUser = await db
       .select()
@@ -31,7 +42,6 @@ export async function POST(request: Request) {
           businessAddress: body.businessAddress,
           firstName: body.firstName,
           lastName: body.lastName,
-          email: body.email,
           phone: body.phone,
           updatedAt: new Date(),
         })
@@ -55,10 +65,22 @@ export async function POST(request: Request) {
 
     console.log("Saved user:", user);
     return NextResponse.json(user);
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error saving to waitlist:", error);
+
+    // Handle unique constraint violation
+    if (error.code === "23505") {
+      return NextResponse.json(
+        { error: "This email is already on the waitlist" },
+        { status: 409 }
+      );
+    }
+
     return NextResponse.json(
-      { error: "Failed to save to waitlist" },
+      {
+        error: "Failed to save to waitlist",
+        details: error.message,
+      },
       { status: 500 }
     );
   }

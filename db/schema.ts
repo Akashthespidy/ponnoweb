@@ -15,7 +15,10 @@ export const waitlistUsers = pgTable("waitlist_users", {
 
 export const contactMessages = pgTable("contact_messages", {
   id: serial("id").primaryKey(),
-  email: varchar("email", { length: 256 }),
-  message: text("message"),
+  email: varchar("email", { length: 256 }).notNull(),
+  message: text("message").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
 });
+
+export type WaitlistUser = typeof waitlistUsers.$inferInsert;
+export type ContactMessage = typeof contactMessages.$inferInsert;
