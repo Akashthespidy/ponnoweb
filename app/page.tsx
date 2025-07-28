@@ -1,7 +1,5 @@
 "use client";
 
-import AccessUser, { AccessUserHandle } from "@/components/AccessUser";
-import ContactUs, { ContactUsHandle } from "@/components/ContactUs";
 import { Button } from "@/components/ui/button";
 import { useRef, useEffect, useState } from "react";
 import * as LucideIcons from "lucide-react";
@@ -21,6 +19,10 @@ import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import ContactUs, { ContactUsHandle } from "@/components/ContactUs";
+import MultiStepForm, {
+  MultiStepFormHandle,
+} from "@/components/ui/multi-step-form";
 
 type Feature = {
   title: string;
@@ -31,9 +33,12 @@ type Feature = {
 
 export default function Home() {
   const [features, setFeatures] = useState<Feature[]>([]);
-  const accessUserRef = useRef<AccessUserHandle>(null);
+  const multiStepFormRef = useRef<MultiStepFormHandle>(null);
   const contactUsRef = useRef<ContactUsHandle>(null);
   const swiperRef = useRef<SwiperCore | null>(null);
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const joinWaitlistRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     import("../data/data.json").then((mod) => {
@@ -46,6 +51,21 @@ export default function Home() {
       swiperRef.current.autoplay?.start();
     }
   }, [features]);
+
+  const handleJoinWaitlist = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) {
+      setEmailError("Email is required");
+      return;
+    }
+    // Simple email validation
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setEmailError("Please enter a valid email address");
+      return;
+    }
+    setEmailError("");
+    multiStepFormRef.current?.open({ email });
+  };
 
   return (
     <div className="relative isolate min-h-screen overflow-hidden bg-gradient-to-br from-[#e8e4f2] via-[#f3f1fa] to-[#fcfbff]">
@@ -66,18 +86,21 @@ export default function Home() {
               🚀 Launching Soon
             </span>
           </div>
-          <nav className="flex w-full md:w-auto justify-end">
-            <Button
-              onClick={() => accessUserRef.current?.open()}
-              className="h-10 px-4 w-full md:w-auto bg-black text-white text-sm font-bold hover:bg-black/90 transition-all"
-            >
-              Get started
-            </Button>
-          </nav>
+          <Button
+            onClick={() => {
+              joinWaitlistRef.current?.scrollIntoView({ behavior: "smooth" });
+            }}
+            className="h-10 px-6 rounded-xl bg-black text-white text-base font-bold hover:bg-neutral-900 transition-all w-full md:w-auto"
+          >
+            Get Started
+          </Button>
         </header>
 
-        {/* Hero Section */}
-        <section className="relative py-20 md:py-32 px-2 sm:px-4 text-center overflow-hidden">
+        {/* Hero Section (Join Waitlist) */}
+        <section
+          ref={joinWaitlistRef}
+          className="relative py-20 md:py-32 px-2 sm:px-4 text-center overflow-hidden"
+        >
           <div className="absolute inset-0 bg-[radial-gradient(circle,_rgba(255,255,255,0.2)_0%,_transparent_100%)] blur-[160px] -z-10" />
 
           <h1 className="text-black text-4xl sm:text-6xl md:text-7xl font-extrabold leading-tight mb-6 tracking-tight drop-shadow">
@@ -95,22 +118,34 @@ export default function Home() {
 
           <form
             className="flex flex-col sm:flex-row gap-3 items-center justify-center w-full max-w-lg mx-auto"
-            onSubmit={(e) => {
-              e.preventDefault();
-              accessUserRef.current?.open();
-            }}
+            onSubmit={handleJoinWaitlist}
           >
-            <input
-              type="email"
-              required
-              placeholder="Enter your email"
-              className="flex-1 h-12 sm:h-14 px-4 sm:px-6 rounded-xl border border-black/30 bg-white/80 text-black placeholder-black/50 focus:outline-none focus:ring-2 focus:ring-black/30 transition-all w-full backdrop-blur-sm"
-            />
+            <div className="w-full relative">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (emailError) setEmailError(""); // Clear error when typing
+                }}
+                placeholder="Enter your email"
+                className={`flex-1 h-12 sm:h-14 px-4 sm:px-6 rounded-xl border ${
+                  emailError ? "border-red-500" : "border-black/30"
+                } bg-white/80 text-black placeholder-black/50 focus:outline-none focus:ring-2 ${
+                  emailError ? "focus:ring-red-500" : "focus:ring-black/30"
+                } transition-all w-full backdrop-blur-sm`}
+              />
+              {emailError && (
+                <p className="absolute -bottom-5 left-0 text-red-500 text-xs mt-1">
+                  {emailError}
+                </p>
+              )}
+            </div>
             <Button
               type="submit"
               className="h-12 sm:h-14 px-6 sm:px-8 rounded-xl bg-black text-white text-base sm:text-lg font-bold hover:bg-neutral-900 transition-all w-full sm:w-auto"
             >
-              Join WaitList
+              Join Waitlist
             </Button>
           </form>
         </section>
@@ -179,9 +214,9 @@ export default function Home() {
         </section>
 
         {/* CTA Section */}
-        <section className="relative py-16 md:py-24 px-2 sm:px-4 text-center overflow-hidden bg-gradient-to-br from-purple-100 via-[#f4f4ff] to-blue-100">
+        <section className="relative py-16 md:py-24 px-2 sm:px-4 text-center overflow-hidden bg-gradient-to-br from-purple-80 via-[#f4f4f6] to-blue-80">
           <div
-            className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(244,244,255,0.25)_0%,_rgba(233,234,254,0.10)_40%,_transparent_120%)] blur-[100px] -z-10"
+            className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(244,244,255,0.10)_0%,_rgba(233,234,254,0.05)_30%,_transparent_120%)] blur-[100px] -z-10"
             aria-hidden="true"
           />
 
@@ -195,16 +230,42 @@ export default function Home() {
               and drive growth.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-              <Button
-                onClick={() => accessUserRef.current?.open()}
-                className="h-12 sm:h-14 px-6 sm:px-8 rounded-xl bg-black text-white text-base sm:text-lg font-bold hover:bg-neutral-800 transition-all w-full sm:w-auto"
+            <div>
+              <form
+                className="flex flex-col sm:flex-row gap-3 items-center justify-center w-full max-w-lg mx-auto"
+                onSubmit={handleJoinWaitlist}
               >
-                Get started
-              </Button>
+                <div className="w-full relative">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      if (emailError) setEmailError(""); // Clear error when typing
+                    }}
+                    placeholder="Enter your email"
+                    className={`flex-1 h-12 sm:h-14 px-4 sm:px-6 rounded-xl border ${
+                      emailError ? "border-red-500" : "border-black/30"
+                    } bg-white/80 text-black placeholder-black/50 focus:outline-none focus:ring-2 ${
+                      emailError ? "focus:ring-red-500" : "focus:ring-black/30"
+                    } transition-all w-full backdrop-blur-sm`}
+                  />
+                  {emailError && (
+                    <p className="absolute -bottom-5 left-0 text-red-500 text-xs mt-1">
+                      {emailError}
+                    </p>
+                  )}
+                </div>
+                <Button
+                  type="submit"
+                  className="h-12 sm:h-14 px-6 sm:px-8 rounded-xl bg-black text-white text-base sm:text-lg font-bold hover:bg-neutral-900 transition-all w-full sm:w-auto"
+                >
+                  Get Started
+                </Button>
+              </form>
               <Button
                 onClick={() => contactUsRef.current?.open()}
-                className="h-12 sm:h-14 px-6 sm:px-8 rounded-xl border border-black/10 bg-white/30 backdrop-blur-sm text-black text-base sm:text-lg font-medium hover:bg-white/50 transition-all w-full sm:w-auto"
+                className="mt-4 h-12 sm:h-14 px-6 sm:px-8 rounded-xl border border-black/10 bg-white/30 backdrop-blur-sm text-black text-base sm:text-lg font-medium hover:bg-white/50 transition-all w-full sm:w-auto"
               >
                 Contact sales
               </Button>
@@ -222,7 +283,7 @@ export default function Home() {
         </footer>
 
         {/* Modals */}
-        <AccessUser ref={accessUserRef} />
+        <MultiStepForm ref={multiStepFormRef} />
         <ContactUs ref={contactUsRef} />
       </div>
     </div>

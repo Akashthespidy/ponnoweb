@@ -1,125 +1,161 @@
-import React, {
-  useState,
-  useImperativeHandle,
-  forwardRef,
-  useEffect,
-} from "react";
-import { createPortal } from "react-dom";
-import { MotionEffect } from "@/components/animate-ui/effects/motion-effect";
-import { Button } from "@/components/ui/button";
+"use client";
 
-export type ContactUsHandle = {
+import React, { forwardRef, useImperativeHandle, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { X } from "lucide-react";
+
+export interface ContactUsHandle {
   open: () => void;
   close: () => void;
-};
+}
 
-const ContactUs = forwardRef<ContactUsHandle>((props, ref) => {
-  const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState("");
-  const [form, setForm] = useState({
-    email: "",
-    message: "",
-  });
-
-  useImperativeHandle(ref, () => ({
-    open: () => setOpen(true),
-    close: () => setOpen(false),
-  }));
-
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (success) {
-      timer = setTimeout(() => setOpen(false), 1500);
-    }
-    return () => clearTimeout(timer);
-  }, [success]);
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+const ContactUs = forwardRef<ContactUsHandle, {}>((props, ref) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError("");
-    setSuccess(false);
+    setIsSubmitting(true);
+    setError(null);
+
+    const form = e.currentTarget as HTMLFormElement;
+    const formData = new FormData(form);
+    const { email, message } = Object.fromEntries(formData);
+
+    if (!email || !message) {
+      setError("All fields are required");
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
-      const res = await fetch("/api/contact", {
+      const response = await fetch("/api/contact", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, message }),
       });
-      if (!res.ok) throw new Error("Failed to send message");
-      setSuccess(true);
-      setForm({ email: "", message: "" });
-    } catch (err: any) {
-      setError(err.message || "Something went wrong");
+
+      if (!response.ok) {
+        throw new Error("Failed to send message");
+      }
+
+      setIsComplete(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to send message");
     } finally {
-      setLoading(false);
+      setIsSubmitting(false);
     }
   };
 
-  if (!open) return null;
+  useImperativeHandle(ref, () => ({
+    open: () => {
+      setIsOpen(true);
+      setIsComplete(false);
+      setError(null);
+    },
+    close: () => setIsOpen(false),
+  }));
 
-  return createPortal(
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <MotionEffect fade zoom slide={{ direction: "up", offset: 40 }}>
-        <div className="bg-white rounded-xl shadow-xl p-8 w-full max-w-md relative animate-fade-in">
-          <button
-            className="absolute top-3 right-3 text-gray-400 hover:text-gray-700 text-2xl"
-            onClick={() => setOpen(false)}
-            aria-label="Close"
-          >
-            ×
-          </button>
-          <h3 className="text-2xl font-bold mb-2 text-center text-gray-900">
-            Contact Us
-          </h3>
-          <p className="mb-6 text-center text-gray-500">
-            We'd love to hear from you. Send us a message!
-          </p>
-          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-            <input
-              type="email"
-              name="email"
-              placeholder="Your Email"
-              required
-              value={form.email}
-              onChange={handleChange}
-              className="border rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-900 placeholder-gray-400"
-            />
-            <textarea
-              name="message"
-              placeholder="Your Message"
-              required
-              value={form.message}
-              onChange={handleChange}
-              className="border rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[80px] bg-white text-gray-900 placeholder-gray-400"
-            />
-            <Button
-              type="submit"
-              className="w-full h-12 mt-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition animate-shimmer"
-              disabled={loading}
-            >
-              {loading ? "Sending..." : "Send Message"}
-            </Button>
-            {success && (
-              <div className="text-green-600 text-center">
-                Message sent! We'll get back to you soon.
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+      <div className="relative z-10 w-full max-w-md bg-white rounded-2xl p-6 shadow-2xl">
+        <button
+          onClick={() => setIsOpen(false)}
+          className="absolute top-4 right-4 p-1 rounded-full hover:bg-gray-100 transition-colors"
+        >
+          <X className="h-5 w-5" />
+        </button>
+
+        {!isComplete ? (
+          <>
+            <h2 className="text-2xl font-bold mb-4">Contact Sales</h2>
+            <p className="text-gray-600 mb-6">
+              Have questions? Our team is here to help.
+            </p>
+
+            {error && (
+              <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg text-sm">
+                {error}
               </div>
             )}
-            {error && <div className="text-red-600 text-center">{error}</div>}
-          </form>
-        </div>
-      </MotionEffect>
-    </div>,
-    document.body
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="your@email.com"
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="message">Message</Label>
+                <Input
+                  id="message"
+                  name="message"
+                  type="text"
+                  placeholder="Tell us about your needs..."
+                  required
+                  className="h-24"
+                />
+              </div>
+
+              <Button
+                type="submit"
+                className="w-full text-white hover:text-white"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Sending..." : "Send Message"}
+              </Button>
+            </form>
+          </>
+        ) : (
+          <div className="text-center py-8">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100 mb-4">
+              <svg
+                className="h-6 w-6 text-green-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+            </div>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              Message sent!
+            </h3>
+            <p className="text-gray-500 mb-6">
+              We'll get back to you as soon as possible.
+            </p>
+            <Button
+              onClick={() => setIsOpen(false)}
+              className="w-full text-white hover:text-white"
+            >
+              Close
+            </Button>
+          </div>
+        )}
+      </div>
+    </div>
   );
 });
 
 ContactUs.displayName = "ContactUs";
+
 export default ContactUs;

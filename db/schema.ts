@@ -1,12 +1,16 @@
-import { pgTable, serial, varchar, text, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, timestamp, varchar } from "drizzle-orm/pg-core";
 
-export const accessUsers = pgTable("access_users", {
+export const waitlistUsers = pgTable("waitlist_users", {
   id: serial("id").primaryKey(),
-  email: varchar("email", { length: 256 }),
-  businessName: varchar("business_name", { length: 256 }),
-  businessCategory: varchar("business_category", { length: 256 }),
-  businessDescription: text("business_description"),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  businessName: text("business_name"),
+  businessCategory: text("business_category"),
+  businessAddress: text("business_address"),
+  firstName: text("first_name"),
+  lastName: text("last_name"),
+  email: text("email").notNull().unique(),
+  phone: text("phone"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const contactMessages = pgTable("contact_messages", {

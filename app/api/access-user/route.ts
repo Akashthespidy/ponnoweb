@@ -1,29 +1,65 @@
-import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
-import { accessUsers } from "@/db/schema";
+import { waitlistUsers } from "@/db/schema";
+import { NextResponse } from "next/server";
+import { eq } from "drizzle-orm";
 
-export async function POST(req: NextRequest) {
+export async function POST(request: Request) {
   try {
-    const { email, businessName, businessCategory, businessDescription } =
-      await req.json();
-    if (!email || !businessName || !businessCategory || !businessDescription) {
-      return NextResponse.json(
-        { error: "All fields are required." },
-        { status: 400 }
-      );
-    }
-    await db.insert(accessUsers).values({
-      email,
-      businessName,
-      businessCategory,
-      businessDescription,
-    });
-    return NextResponse.json({ success: true }, { status: 201 });
-  } catch (err) {
-    return NextResponse.json({ error: "Invalid request." }, { status: 400 });
-  }
-}
+    const body = await request.json();
+    console.log("POST body:", body);
 
-export function GET() {
-  return NextResponse.json({ error: "Method not allowed." }, { status: 405 });
+    // Validate required fields
+    if (!body.email) {
+      return NextResponse.json({ error: "Email is required" }, { status: 400 });
+    }
+
+    // Insert or update in database
+    const existingUser = await db
+      .select()
+      .from(waitlistUsers)
+      .where(eq(waitlistUsers.email, body.email))
+      .then((res) => res[0]);
+
+    let user;
+    if (existingUser) {
+      // Update existing user
+      [user] = await db
+        .update(waitlistUsers)
+        .set({
+          businessName: body.businessName,
+          businessCategory: body.businessCategory,
+          businessAddress: body.businessAddress,
+          firstName: body.firstName,
+          lastName: body.lastName,
+          email: body.email,
+          phone: body.phone,
+          updatedAt: new Date(),
+        })
+        .where(eq(waitlistUsers.email, body.email))
+        .returning();
+    } else {
+      // Create new user
+      [user] = await db
+        .insert(waitlistUsers)
+        .values({
+          businessName: body.businessName,
+          businessCategory: body.businessCategory,
+          businessAddress: body.businessAddress,
+          firstName: body.firstName,
+          lastName: body.lastName,
+          email: body.email,
+          phone: body.phone,
+        })
+        .returning();
+    }
+
+    console.log("Saved user:", user);
+    return NextResponse.json(user);
+  } catch (error) {
+    console.error("Error saving to waitlist:", error);
+    return NextResponse.json(
+      { error: "Failed to save to waitlist" },
+      { status: 500 }
+    );
+  }
 }
