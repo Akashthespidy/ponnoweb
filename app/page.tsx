@@ -23,6 +23,8 @@ import ContactUs, { ContactUsHandle } from "@/components/ContactUs";
 import MultiStepForm, {
   MultiStepFormHandle,
 } from "@/components/ui/multi-step-form";
+import Logomarquee from "@/components/logomarquee";
+import SocialCommerceHub from "@/components/nexusorb";
 
 type Feature = {
   title: string;
@@ -213,6 +215,7 @@ export default function Home() {
           </div>
         </section>
 
+        <SocialCommerceHub />
         {/* CTA Section */}
         <section className="relative py-16 md:py-24 px-2 sm:px-4 text-center overflow-hidden bg-gradient-to-br from-purple-80 via-[#f4f4f6] to-blue-80">
           <div
