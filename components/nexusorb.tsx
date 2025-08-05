@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Image from "next/image";
 
 // Social Media Icons (white on brand-colored backgrounds)
 const FacebookIcon = () => (
@@ -40,47 +41,14 @@ const MessengerIcon = () => (
 
 // Website Icon from Flaticon (converted to white)
 const WebsiteIcon = () => (
-  <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-    <path
-      d="M208,64h66.75a32,32,0,0,1,22.62,9.37L438.63,214.63A32,32,0,0,1,448,237.25V432a48,48,0,0,1-48,48H192a48,48,0,0,1-48-48V304"
-      fill="none"
-      stroke="white"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="32"
-    />
-    <path
-      d="M288,72V192a32,32,0,0,0,32,32H440"
-      fill="none"
-      stroke="white"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="32"
-    />
-    <rect
-      x="64"
-      y="304"
-      width="112"
-      height="128"
-      rx="32"
-      fill="none"
-      stroke="white"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="32"
-    />
-    <line
-      x1="144"
-      y1="360"
-      x2="96"
-      y2="360"
-      fill="none"
-      stroke="white"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="32"
-    />
-  </svg>
+  <Image
+    src="/images/web-logo.png"
+    alt="Website"
+    width={40}
+    height={40}
+    style={{ objectFit: "contain" }}
+    priority
+  />
 );
 
 const AIChatIcon = () => (
@@ -200,7 +168,7 @@ const SocialMediaOrb = () => {
           and support from one dashboard. Your customers can buy directly
           through{" "}
           <span className="font-semibold text-blue-600">
-            Automated chat system
+            automated chat system
           </span>{" "}
           .
         </p>
@@ -317,7 +285,7 @@ const SocialMediaOrb = () => {
 
 export default function SocialCommerceHub() {
   return (
-    <div className="w-full flex items-center justify-center font-sans p-8 overflow-hidden">
+    <div className="w-full flex items-center justify-center font-sans p-4 overflow-hidden">
       {/* Style block to define the animations */}
       <style>
         {`
