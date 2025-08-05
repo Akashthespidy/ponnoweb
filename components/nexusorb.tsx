@@ -38,11 +38,47 @@ const MessengerIcon = () => (
   </svg>
 );
 
+// Website Icon from Flaticon (converted to white)
 const WebsiteIcon = () => (
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
     <path
-      d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm6.5 6.5h-13c-.276 0-.5.224-.5.5v10c0 .276.224.5.5.5h13c.276 0 .5-.224.5-.5V7c0-.276-.224-.5-.5-.5zM12 4.5c1.654 0 3 1.346 3 3s-1.346 3-3 3-3-1.346-3-3 1.346-3 3-3zm-4.5 6c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5 1.5-.672 1.5-1.5-.672-1.5-1.5-1.5zm9 0c-.828 0-1.5.672-1.5 1.5s.672 1.5 1.5 1.5 1.5-.672 1.5-1.5-.672-1.5-1.5-1.5z"
-      fill="white"
+      d="M208,64h66.75a32,32,0,0,1,22.62,9.37L438.63,214.63A32,32,0,0,1,448,237.25V432a48,48,0,0,1-48,48H192a48,48,0,0,1-48-48V304"
+      fill="none"
+      stroke="white"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="32"
+    />
+    <path
+      d="M288,72V192a32,32,0,0,0,32,32H440"
+      fill="none"
+      stroke="white"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="32"
+    />
+    <rect
+      x="64"
+      y="304"
+      width="112"
+      height="128"
+      rx="32"
+      fill="none"
+      stroke="white"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="32"
+    />
+    <line
+      x1="144"
+      y1="360"
+      x2="96"
+      y2="360"
+      fill="none"
+      stroke="white"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="32"
     />
   </svg>
 );
@@ -65,7 +101,7 @@ const AIChatIcon = () => (
   </svg>
 );
 
-// Wrapper for individual icons to give them the glassy container style and hover effects
+// Wrapper for individual icons with increased padding
 const IconWrapper = ({
   children,
   className = "",
@@ -73,6 +109,7 @@ const IconWrapper = ({
   isHovered = false,
   animationDelay = 0,
   bgColor = "bg-blue-500",
+  padding = "p-6", // Increased padding
 }: {
   children: React.ReactNode;
   className?: string;
@@ -80,10 +117,12 @@ const IconWrapper = ({
   isHovered?: boolean;
   animationDelay?: number;
   bgColor?: string;
+  padding?: string;
 }) => (
   <div
     className={`
       backdrop-blur-xl rounded-2xl flex items-center justify-center transition-all duration-300
+      ${padding} // Applied padding here
       ${
         isHighlighted
           ? `${bgColor} border border-blue-400/50 shadow-blue-400/30 shadow-2xl animate-breathing-glow`
@@ -104,7 +143,6 @@ const IconWrapper = ({
   </div>
 );
 
-// The grid of icons with connecting lines
 const SocialMediaOrb = () => {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
 
@@ -170,14 +208,16 @@ const SocialMediaOrb = () => {
           {socialIcons.map((icon) => (
             <div
               key={icon.id}
-              className={`px-4 py-2 rounded-full ${icon.bgColor} bg-opacity-20 backdrop-blur-sm flex items-center gap-2`}
+              className={`px-4 py-2 rounded-full ${icon.bgColor} bg-opacity-20 backdrop-blur-sm flex items-center gap-2 border border-white/20`}
             >
               <div
                 className={`w-6 h-6 rounded-full ${icon.bgColor} flex items-center justify-center`}
               >
                 {React.cloneElement(icon.component, { width: 12, height: 12 })}
               </div>
-              <span className="text-sm font-medium">{icon.name}</span>
+              <span className="text-sm font-medium text-white">
+                {icon.name}
+              </span>
             </div>
           ))}
         </div>
@@ -209,11 +249,11 @@ const SocialMediaOrb = () => {
                   y1={startY}
                   x2={endX}
                   y2={endY}
-                  stroke={hoveredId === icon.id ? "#3B82F6" : "#6B7280"}
+                  stroke={hoveredId === icon.id ? "#3B82F6" : "#ffffff"}
                   strokeWidth="2"
                   className="transition-all duration-300"
                   style={{
-                    opacity: hoveredId === icon.id ? 1 : 0.3,
+                    opacity: hoveredId === icon.id ? 0.8 : 0.3,
                   }}
                 />
               );
@@ -230,6 +270,7 @@ const SocialMediaOrb = () => {
               isHighlighted={true}
               animationDelay={0}
               bgColor="bg-gradient-to-br from-blue-600 to-purple-600"
+              padding="p-8" // Increased padding for center icon
             >
               <AIChatIcon />
             </IconWrapper>
@@ -260,6 +301,7 @@ const SocialMediaOrb = () => {
                     isHovered={hoveredId === icon.id}
                     animationDelay={i * 0.15}
                     bgColor={icon.bgColor}
+                    padding="p-6" // Increased padding for outer icons
                   >
                     {icon.component}
                   </IconWrapper>
@@ -273,7 +315,6 @@ const SocialMediaOrb = () => {
   );
 };
 
-// The main App component
 export default function SocialCommerceHub() {
   return (
     <div className="w-full flex items-center justify-center font-sans p-8 overflow-hidden">

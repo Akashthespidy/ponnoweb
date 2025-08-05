@@ -163,55 +163,6 @@ export default function Home() {
                 Everything you need to manage and grow your business efficiently
               </p>
             </div>
-
-            <Swiper
-              key={features.length}
-              className="feature-carousel px-2 sm:px-0"
-              effect="coverflow"
-              grabCursor
-              centeredSlides
-              slidesPerView="auto"
-              loop
-              coverflowEffect={{
-                rotate: 0,
-                stretch: 0,
-                depth: 200,
-                modifier: 2,
-                slideShadows: false,
-              }}
-              autoplay={{ delay: 3000, disableOnInteraction: false }}
-              pagination={{ clickable: true }}
-              navigation
-              modules={[EffectCoverflow, Autoplay, Pagination, Navigation]}
-              onSwiper={(swiper) => {
-                swiperRef.current = swiper;
-              }}
-            >
-              {features.map((feature, index) => (
-                <SwiperSlide key={index} className="!w-[420px] sm:!w-[520px]">
-                  <div
-                    className="flex flex-col items-center justify-start h-full p-8 rounded-3xl border border-black/10 bg-white/5 hover:bg-white/10 backdrop-blur-md transition-all text-black shadow-2xl cursor-pointer group min-h-[420px] sm:min-h-[520px]"
-                    onClick={() => swiperRef.current?.slideToLoop(index)}
-                    tabIndex={0}
-                    role="button"
-                    aria-label={`View feature: ${feature.title}`}
-                  >
-                    <div className="relative w-full flex-1 mb-8 rounded-3xl overflow-hidden flex items-center justify-center">
-                      <Image
-                        src={feature.image}
-                        alt={feature.title}
-                        fill
-                        className="object-contain w-full h-full group-hover:scale-105 transition-transform duration-500"
-                        loading="lazy"
-                      />
-                    </div>
-                    <h3 className="text-2xl sm:text-3xl font-bold text-center leading-snug mt-4 tracking-tight">
-                      {feature.title}
-                    </h3>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
           </div>
         </section>
 
