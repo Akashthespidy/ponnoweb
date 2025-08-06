@@ -69,7 +69,7 @@ const AIChatIcon = () => (
   </svg>
 );
 
-// Wrapper for individual icons with increased padding
+// Wrapper for individual icons with standardized sizing
 const IconWrapper = ({
   children,
   className = "",
@@ -77,7 +77,7 @@ const IconWrapper = ({
   isHovered = false,
   animationDelay = 0,
   bgColor = "bg-blue-500",
-  padding = "p-6", // Increased padding
+  padding = "p-4", // Standardized padding
 }: {
   children: React.ReactNode;
   className?: string;
@@ -90,7 +90,7 @@ const IconWrapper = ({
   <div
     className={`
       backdrop-blur-xl rounded-2xl flex items-center justify-center transition-all duration-300
-      ${padding} // Applied padding here
+      ${padding}
       ${
         isHighlighted
           ? `${bgColor} border border-blue-400/50 shadow-blue-400/30 shadow-2xl animate-breathing-glow`

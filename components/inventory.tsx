@@ -2,40 +2,45 @@
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
-// POS Icons
+// POS Icons - Made larger with explicit dimensions
 const TerminalIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="w-12 h-12"
+  >
     <path
       d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z"
-      stroke="currentColor"
+      stroke="white"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M4 8H20"
-      stroke="currentColor"
+      stroke="white"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M8 12H8.01"
-      stroke="currentColor"
+      stroke="white"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M12 12H12.01"
-      stroke="currentColor"
+      stroke="white"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M16 12H16.01"
-      stroke="currentColor"
+      stroke="white"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -44,31 +49,36 @@ const TerminalIcon = () => (
 );
 
 const ReceiptIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="w-12 h-12"
+  >
     <path
       d="M4 2H20V22L17.5 20L15 22L12.5 20L10 22L7.5 20L5 22L4 22V2Z"
-      stroke="currentColor"
+      stroke="white"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M8 7H16"
-      stroke="currentColor"
+      stroke="white"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M8 11H16"
-      stroke="currentColor"
+      stroke="white"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M8 15H12"
-      stroke="currentColor"
+      stroke="white"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -77,28 +87,43 @@ const ReceiptIcon = () => (
 );
 
 const PaymentIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="w-12 h-12"
+  >
     <path
       d="M20 4H4C2.89 4 2.01 4.89 2.01 6L2 18C2 19.11 2.89 20 4 20H20C21.11 20 22 19.11 22 18V6C22 4.89 21.11 4 20 4ZM20 18H4V12H20V18ZM20 8H4V6H20V8Z"
-      fill="currentColor"
+      fill="white"
     />
   </svg>
 );
 
 const OnlineIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="w-12 h-12"
+  >
     <path
       d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM7 13C6.45 13 6 12.55 6 12C6 11.45 6.45 11 7 11C7.55 11 8 11.45 8 12C8 12.55 7.55 13 7 13ZM12 13C11.45 13 11 12.55 11 12C11 11.45 11.45 11 12 11C12.55 11 13 11.45 13 12C13 12.55 12.55 13 12 13ZM17 13C16.45 13 16 12.55 16 12C16 11.45 16.45 11 17 11C17.55 11 18 11.45 18 12C18 12.55 17.55 13 17 13Z"
-      fill="currentColor"
+      fill="white"
     />
   </svg>
 );
 
 const InventoryIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className="w-12 h-12"
+  >
     <path
       d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.707 15.293C4.077 15.923 4.523 17 5.414 17H17M17 17C15.895 17 15 17.895 15 19C15 20.105 15.895 21 17 21C18.105 21 19 20.105 19 19C19 17.895 18.105 17 17 17ZM9 19C9 20.105 8.105 21 7 21C5.895 21 5 20.105 5 19C5 17.895 5.895 17 7 17C8.105 17 9 17.895 9 19Z"
-      stroke="currentColor"
+      stroke="white"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -129,7 +154,7 @@ const IconWrapper = ({
   color = "bg-blue-500",
   animationDelay = 0,
   bgColor,
-  padding = "p-6",
+  padding = "p-4", // Standardized padding
 }: {
   children: React.ReactNode;
   className?: string;
@@ -143,7 +168,7 @@ const IconWrapper = ({
 }) => (
   <div
     className={`
-      backdrop-blur-xl rounded-2xl flex items-center justify-center border
+      backdrop-blur-xl rounded-2xl flex items-center justify-center border transition-all duration-300
       ${padding}
       ${
         isHighlighted
@@ -172,7 +197,6 @@ const IconWrapper = ({
 const POSOrb = () => {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
   const [activeId, setActiveId] = useState<number>(1);
-
   const posFeatures = [
     {
       id: 1,
@@ -220,8 +244,8 @@ const POSOrb = () => {
   }, []);
 
   // Constants for layout calculation
-  const radius = 140;
-  const svgSize = 380;
+  const radius = 160;
+  const svgSize = 420;
   const svgCenter = svgSize / 2;
 
   return (
@@ -240,7 +264,6 @@ const POSOrb = () => {
           <span className="font-semibold text-yellow-600">print receipts</span>,{" "}
           <span className="font-semibold text-pink-600">track everything</span>.
         </p>
-
         {/* Active feature description */}
         <div className="bg-white/80 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-200 dark:border-gray-700 transition-all duration-500">
           <h3 className="font-bold text-lg mb-1 text-gray-800 dark:text-white">
@@ -250,7 +273,6 @@ const POSOrb = () => {
             {posFeatures.find((f) => f.id === activeId)?.description}
           </p>
         </div>
-
         <div className="flex flex-wrap gap-3">
           {posFeatures.map((feature) => (
             <div
@@ -262,24 +284,21 @@ const POSOrb = () => {
               onMouseLeave={() => setHoveredId(null)}
             >
               <div
-                className={`w-6 h-6 rounded-full  flex items-center justify-center`}
+                className={`w-7 h-7 rounded-full bg-blue-300 flex items-center justify-center"`}
               >
                 {React.cloneElement(feature.component, {
-                  width: 12,
-                  height: 12,
-                  color: "white",
+                  className: "w-5 h-5",
                 })}
               </div>
-              <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
+              <span className="text-sm font-medium text-black-800 dark:text-gray-200">
                 {feature.name}
               </span>
             </div>
           ))}
         </div>
       </div>
-
       {/* Right side - Interactive Orb */}
-      <div className="relative w-[380px] h-[380px] scale-75 md:scale-90">
+      <div className="relative w-[420px] h-[420px] scale-75 md:scale-90">
         {/* SVG container for all connecting lines */}
         <svg width={svgSize} height={svgSize} className="absolute top-0 left-0">
           <g>
@@ -306,22 +325,20 @@ const POSOrb = () => {
             })}
           </g>
         </svg>
-
         {/* The main container that acts as the center for the circle */}
         <div className="absolute top-1/2 left-1/2">
           {/* Center Icon - POS Hub */}
           <div className="absolute -translate-x-1/2 -translate-y-1/2 z-10">
             <IconWrapper
-              className="w-24 h-24"
+              className="w-20 h-20"
               isHighlighted={true}
               animationDelay={0}
               bgColor="bg-gradient-to-br from-green-600 to-blue-600"
-              padding="p-8"
+              padding="p-4" // Reduced padding
             >
               <POSCenterIcon />
             </IconWrapper>
           </div>
-
           {/* Mapping over the features to place them */}
           {posFeatures.map((feature, i) => {
             const angleInDegrees = -90 + i * 72;
@@ -347,9 +364,13 @@ const POSOrb = () => {
                     isHovered={hoveredId === feature.id}
                     animationDelay={i * 0.15}
                     color={feature.color}
-                    padding="p-6"
+                    padding="p-4" // Reduced padding
                   >
-                    <div className="text-white">{feature.component}</div>
+                    <div className="w-5/6 h-5/6">
+                      {" "}
+                      {/* Increased size to fill more space */}
+                      {feature.component}
+                    </div>
                   </IconWrapper>
                 </div>
               </div>
@@ -385,12 +406,10 @@ export default function CompletePOSSolution() {
           }
         `}
       </style>
-
       {/* Enhanced background with a radial gradient */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(74,222,128,0.1),rgba(255,255,255,0))]"></div>
       </div>
-
       <div className="relative z-10 container mx-auto">
         <POSOrb />
       </div>

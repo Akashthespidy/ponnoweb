@@ -21,7 +21,7 @@ const businessCategories = [
 ];
 
 export interface MultiStepFormHandle {
-  open: (initialData?: { email?: string }) => void;
+  open: (initialData?: { email?: string }, onSuccess?: () => void) => void;
   close: () => void;
 }
 
@@ -135,7 +135,8 @@ const MultiStepForm = forwardRef<MultiStepFormHandle, MultiStepFormProps>(
         });
 
         if (!response.ok) {
-          throw new Error("Failed to save data");
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Failed to save data");
         }
 
         return await response.json();

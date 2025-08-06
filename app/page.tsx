@@ -1,5 +1,4 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import { useRef, useEffect, useState } from "react";
 import * as LucideIcons from "lucide-react";
@@ -26,17 +25,14 @@ import MultiStepForm, {
 import Logomarquee from "@/components/logomarquee";
 import SocialCommerceHub from "@/components/nexusorb";
 import InventoryManagementSystem from "@/components/SmartInven";
-import SmartInventoryManagement from "@/components/SmartInven";
 import CustomerRetentionTools from "@/components/CusR";
 import CompletePOSSolution from "@/components/inventory";
-
 type Feature = {
   title: string;
   icon: string;
   color: string;
   image: string;
 };
-
 export default function Home() {
   const [features, setFeatures] = useState<Feature[]>([]);
   const multiStepFormRef = useRef<MultiStepFormHandle>(null);
@@ -45,6 +41,7 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const joinWaitlistRef = useRef<HTMLDivElement>(null);
+  const [isFormOpen, setIsFormOpen] = useState(false); // Track form state
 
   useEffect(() => {
     import("../data/data.json").then((mod) => {
@@ -58,8 +55,14 @@ export default function Home() {
     }
   }, [features]);
 
+  // Effect to log when the form ref changes
+  useEffect(() => {
+    console.log("multiStepFormRef.current:", multiStepFormRef.current);
+  }, [multiStepFormRef.current]);
+
   const handleJoinWaitlist = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Form submitted"); // Debug log
     if (!email) {
       setEmailError("Email is required");
       return;
@@ -70,7 +73,48 @@ export default function Home() {
       return;
     }
     setEmailError("");
-    multiStepFormRef.current?.open({ email });
+    console.log("Opening multi-step form with email:", email); // Debug log
+    if (multiStepFormRef.current) {
+      console.log("multiStepFormRef.current exists"); // Debug log
+      multiStepFormRef.current.open({ email }, () => {
+        setEmail("");
+        console.log("Email cleared"); // Debug log
+      });
+    } else {
+      console.log("multiStepFormRef.current is null"); // Debug log
+    }
+  };
+
+  const handleButtonClick = () => {
+    console.log("Button clicked"); // Debug log
+    console.log("Current email:", email); // Debug log
+
+    // Validate email before opening form
+    if (!email) {
+      setEmailError("Email is required");
+      return;
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setEmailError("Please enter a valid email address");
+      return;
+    }
+
+    setEmailError("");
+    console.log("Email validated, opening form"); // Debug log
+
+    // Check if ref exists and try to open form
+    if (multiStepFormRef.current) {
+      console.log("Opening form via ref"); // Debug log
+      multiStepFormRef.current.open({ email }, () => {
+        setEmail("");
+        console.log("Form opened successfully"); // Debug log
+      });
+      setIsFormOpen(true); // Update state
+    } else {
+      console.error("multiStepFormRef.current is null"); // Debug log
+      // Fallback: Try to force the form to open by setting state
+      setIsFormOpen(true);
+    }
   };
 
   return (
@@ -79,7 +123,6 @@ export default function Home() {
       <div className="fixed inset-0 -z-50">
         <BubbleBackground interactive className="w-full h-full opacity-20" />
       </div>
-
       <div className="relative z-10">
         {/* Header */}
         <header className="sticky top-0 z-[100] flex flex-col md:flex-row items-center justify-between border-b border-black/10 px-4 sm:px-6 md:px-10 py-3 backdrop-blur-md bg-transparent gap-2 md:gap-0">
@@ -108,7 +151,6 @@ export default function Home() {
           className="relative py-20 md:py-32 px-2 sm:px-4 text-center overflow-hidden"
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle,_rgba(255,255,255,0.2)_0%,_transparent_100%)] blur-[160px] -z-10" />
-
           <h1 className="text-black text-4xl sm:text-6xl md:text-7xl font-extrabold leading-tight mb-6 tracking-tight drop-shadow">
             Business Operations,
             <br />
@@ -116,15 +158,15 @@ export default function Home() {
               <RotatingText text={["Simplified", "Automated", "Optimized"]} />
             </span>
           </h1>
-
           <p className="text-black/90 text-lg sm:text-2xl md:text-3xl font-light max-w-3xl mx-auto mb-10 leading-relaxed tracking-wide">
             Ponno streamlines your workflow with intuitive tools that unify
             sales, operations, and customer management in one powerful platform.
           </p>
 
+          {/* Form wrapper to ensure proper event handling */}
           <form
-            className="flex flex-col sm:flex-row gap-3 items-center justify-center w-full max-w-lg mx-auto"
             onSubmit={handleJoinWaitlist}
+            className="flex flex-col sm:flex-row gap-3 items-center justify-center w-full max-w-lg mx-auto"
           >
             <div className="w-full relative">
               <input
@@ -170,10 +212,12 @@ export default function Home() {
           </div>
         </section>
 
-        <SocialCommerceHub />
-        <InventoryManagementSystem />
-        <CompletePOSSolution />
-        <CustomerRetentionTools />
+        <div className="max-w-7xl mx-auto px-8 sm:px-6">
+          <SocialCommerceHub />
+          <InventoryManagementSystem />
+          <CompletePOSSolution />
+          <CustomerRetentionTools />
+        </div>
 
         {/* CTA Section */}
         <section className="relative py-16 md:py-24 px-2 sm:px-4 text-center overflow-hidden bg-gradient-to-br from-purple-80 via-[#f4f4f6] to-blue-80">
@@ -181,57 +225,55 @@ export default function Home() {
             className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(244,244,255,0.10)_0%,_rgba(233,234,254,0.05)_30%,_transparent_120%)] blur-[100px] -z-10"
             aria-hidden="true"
           />
-
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-gray-900 text-3xl sm:text-5xl font-bold mb-6 sm:mb-10 tracking-tight drop-shadow-md">
               Ready to transform your business?
             </h2>
-
             <p className="text-gray-800 text-lg sm:text-2xl mb-8 max-w-2xl mx-auto font-light leading-relaxed">
               Join forward-thinking companies using Ponno to simplify operations
               and drive growth.
             </p>
 
-            <div>
-              <form
-                className="flex flex-col sm:flex-row gap-3 items-center justify-center w-full max-w-lg mx-auto"
-                onSubmit={handleJoinWaitlist}
-              >
-                <div className="w-full relative">
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                      if (emailError) setEmailError(""); // Clear error when typing
-                    }}
-                    placeholder="Enter your email"
-                    className={`flex-1 h-12 sm:h-14 px-4 sm:px-6 rounded-xl border ${
-                      emailError ? "border-red-500" : "border-black/30"
-                    } bg-white/80 text-black placeholder-black/50 focus:outline-none focus:ring-2 ${
-                      emailError ? "focus:ring-red-500" : "focus:ring-black/30"
-                    } transition-all w-full backdrop-blur-sm`}
-                  />
-                  {emailError && (
-                    <p className="absolute -bottom-5 left-0 text-red-500 text-xs mt-1">
-                      {emailError}
-                    </p>
-                  )}
-                </div>
-                <Button
-                  type="submit"
-                  className="h-12 sm:h-14 px-6 sm:px-8 rounded-xl bg-black text-white text-base sm:text-lg font-bold hover:bg-neutral-900 transition-all w-full sm:w-auto"
-                >
-                  Get Started
-                </Button>
-              </form>
+            {/* Form wrapper for CTA section as well */}
+            <form
+              onSubmit={handleJoinWaitlist}
+              className="flex flex-col sm:flex-row gap-3 items-center justify-center w-full max-w-lg mx-auto"
+            >
+              <div className="w-full relative">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (emailError) setEmailError(""); // Clear error when typing
+                  }}
+                  placeholder="Enter your email"
+                  className={`flex-1 h-12 sm:h-14 px-4 sm:px-6 rounded-xl border ${
+                    emailError ? "border-red-500" : "border-black/30"
+                  } bg-white/80 text-black placeholder-black/50 focus:outline-none focus:ring-2 ${
+                    emailError ? "focus:ring-red-500" : "focus:ring-black/30"
+                  } transition-all w-full backdrop-blur-sm`}
+                />
+                {emailError && (
+                  <p className="absolute -bottom-5 left-0 text-red-500 text-xs mt-1">
+                    {emailError}
+                  </p>
+                )}
+              </div>
               <Button
-                onClick={() => contactUsRef.current?.open()}
-                className="mt-4 h-12 sm:h-14 px-6 sm:px-8 rounded-xl border border-black/10 bg-white/30 backdrop-blur-sm text-black text-base sm:text-lg font-medium hover:bg-white/50 transition-all w-full sm:w-auto"
+                type="submit"
+                className="h-12 sm:h-14 px-6 sm:px-8 rounded-xl bg-black text-white text-base sm:text-lg font-bold hover:bg-neutral-900 transition-all w-full sm:w-auto"
               >
-                Contact sales
+                Get Started
               </Button>
-            </div>
+            </form>
+
+            <Button
+              onClick={() => contactUsRef.current?.open()}
+              className="mt-4 h-12 sm:h-14 px-6 sm:px-8 rounded-xl border border-black/10 bg-white/30 backdrop-blur-sm text-black text-base sm:text-lg font-medium hover:bg-white/50 transition-all w-full sm:w-auto"
+            >
+              Contact sales
+            </Button>
           </div>
         </section>
 
