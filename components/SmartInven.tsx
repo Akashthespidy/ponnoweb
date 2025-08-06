@@ -8,6 +8,7 @@ import React, {
   useCallback,
 } from "react";
 import Image from "next/image";
+
 // Type definitions
 interface IconWrapperProps {
   children: ReactNode;
@@ -35,6 +36,7 @@ interface OuterIcon {
   name: string;
   color: string;
 }
+
 // Inventory Management Icons
 const StockIcon = () => (
   <svg
@@ -50,6 +52,7 @@ const StockIcon = () => (
     />
   </svg>
 );
+
 const AlertIcon = () => (
   <svg
     height="1.8em"
@@ -73,6 +76,7 @@ const AlertIcon = () => (
     />
   </svg>
 );
+
 const BarcodeIcon = () => (
   <svg
     height="1.8em"
@@ -87,6 +91,7 @@ const BarcodeIcon = () => (
     />
   </svg>
 );
+
 const AutomationIcon = () => (
   <svg
     height="1.8em"
@@ -101,6 +106,7 @@ const AutomationIcon = () => (
     />
   </svg>
 );
+
 const ReportIcon = () => (
   <svg
     height="1.8em"
@@ -115,6 +121,7 @@ const ReportIcon = () => (
     />
   </svg>
 );
+
 const SyncIcon = () => (
   <svg
     height="1.8em"
@@ -129,6 +136,7 @@ const SyncIcon = () => (
     />
   </svg>
 );
+
 const BulkEditIcon = () => (
   <svg
     height="1.8em"
@@ -143,6 +151,7 @@ const BulkEditIcon = () => (
     />
   </svg>
 );
+
 const POSIcon = () => (
   <svg
     height="1.8em"
@@ -157,6 +166,7 @@ const POSIcon = () => (
     />
   </svg>
 );
+
 const AnalyticsIcon = () => (
   <svg
     height="1.8em"
@@ -171,6 +181,7 @@ const AnalyticsIcon = () => (
     />
   </svg>
 );
+
 // Center Inventory Icon
 const InventoryCenterIcon = () => (
   <Image
@@ -182,6 +193,7 @@ const InventoryCenterIcon = () => (
     priority
   />
 );
+
 const IconWrapper = ({
   children,
   className = "",
@@ -213,6 +225,7 @@ const IconWrapper = ({
     {children}
   </div>
 );
+
 // Updated outerIcons with inventory-focused features
 const outerIcons: OuterIcon[] = [
   {
@@ -270,6 +283,7 @@ const outerIcons: OuterIcon[] = [
     color: "#5E35B1",
   },
 ];
+
 const IconGrid = () => {
   const [activeId, setActiveId] = useState<number>(1);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -278,6 +292,7 @@ const IconGrid = () => {
   const svgSize = 400;
   const svgCenter = svgSize / 2;
   const numIcons = outerIcons.length;
+
   const getIconPosition = useCallback(
     (index: number): IconPosition => {
       const angle = (-90 + index * (360 / numIcons)) * (Math.PI / 180);
@@ -290,12 +305,14 @@ const IconGrid = () => {
     },
     [numIcons, radius, svgCenter]
   );
+
   // Animation loop for particles
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+
     let animationFrameId: number;
     const render = () => {
       ctx.clearRect(0, 0, svgSize, svgSize);
@@ -317,16 +334,19 @@ const IconGrid = () => {
     render();
     return () => window.cancelAnimationFrame(animationFrameId);
   }, []);
+
   // Effect for sequential animation and particle emission
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveId((prevId) => {
         const currentIndex = outerIcons.findIndex((icon) => icon.id === prevId);
         const nextIndex = (currentIndex + 1) % outerIcons.length;
+
         // Emit particles from the new active icon's position
         const pos = getIconPosition(nextIndex);
         const iconCenterX = svgCenter + pos.transformX;
         const iconCenterY = svgCenter + pos.transformY;
+
         for (let i = 0; i < 20; i++) {
           particlesRef.current.push({
             x: iconCenterX,
@@ -342,6 +362,7 @@ const IconGrid = () => {
     }, 2500);
     return () => clearInterval(interval);
   }, [outerIcons, getIconPosition, svgCenter]);
+
   return (
     <div className="relative w-[400px] h-[400px] scale-75 md:scale-90 lg:scale-100">
       <canvas
@@ -350,6 +371,7 @@ const IconGrid = () => {
         height={svgSize}
         className="absolute top-0 left-0 pointer-events-none z-10"
       ></canvas>
+
       <svg width={svgSize} height={svgSize} className="absolute top-0 left-0">
         <defs>
           <filter id="glow_v6">
@@ -389,6 +411,7 @@ const IconGrid = () => {
           })}
         </g>
       </svg>
+
       <div className="absolute top-1/2 left-1/2">
         <div className="absolute -translate-x-1/2 -translate-y-1/2 z-20">
           <IconWrapper
@@ -398,6 +421,7 @@ const IconGrid = () => {
             <InventoryCenterIcon />
           </IconWrapper>
         </div>
+
         {outerIcons.map((icon, i) => {
           const { transformX, transformY } = getIconPosition(i);
           const isActive = activeId === icon.id;
@@ -432,6 +456,7 @@ const IconGrid = () => {
     </div>
   );
 };
+
 export default function SmartInventoryManagement() {
   return (
     <div className="w-full flex items-center justify-center font-sans p-4 overflow-hidden">
@@ -466,33 +491,32 @@ export default function SmartInventoryManagement() {
           }
         `}
       </style>
+
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(72,187,120,0.1),rgba(255,255,255,0))] dark:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(72,187,120,0.3),rgba(255,255,255,0))]"></div>
       </div>
+
       <div className="relative z-10 container mx-auto">
-        <div className="flex flex-col lg:flex-row items-center justify-center min-h-[80vh] gap-8">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-12 p-8 max-w-6xl mx-auto">
           {/* Left side - Text content */}
-          <div className="lg:w-1/2 text-center lg:text-left flex flex-col justify-center items-center lg:items-start">
-            <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent mb-4">
+          <div className="md:w-1/2 space-y-6">
+            <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
               Smart Inventory Management
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-lg">
+            <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
               Real-time stock tracking, low-stock alerts, and bulk editing.
               Never run out of bestsellers again.
             </p>
-            <div className="flex flex-wrap justify-center lg:justify-start gap-3">
+            <div className="flex flex-wrap gap-3">
               {outerIcons.map((icon) => (
                 <div
                   key={icon.id}
                   className="px-4 py-2 rounded-full backdrop-blur-sm flex items-center gap-2 border border-white/20"
                 >
-                  <div
-                    className="w-6 h-6 rounded-full flex items-center justify-center"
-                    style={{ backgroundColor: icon.color }}
-                  >
+                  <div className="w-6 h-6 rounded-full flex items-center justify-center">
                     <div
                       className="flex items-center justify-center"
-                      style={{ color: "white", width: "12px", height: "12px" }}
+                      style={{ color: "black", width: "12px", height: "12px" }}
                     >
                       {icon.component}
                     </div>
@@ -504,8 +528,9 @@ export default function SmartInventoryManagement() {
               ))}
             </div>
           </div>
-          {/* Right side - Spinning animation */}
-          <div className="lg:w-1/2 flex items-center justify-center">
+
+          {/* Right side - Interactive Orb */}
+          <div className="relative w-[380px] h-[380px] scale-75 md:scale-90">
             <IconGrid />
           </div>
         </div>

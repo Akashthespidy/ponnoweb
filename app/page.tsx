@@ -26,6 +26,9 @@ import MultiStepForm, {
 import Logomarquee from "@/components/logomarquee";
 import SocialCommerceHub from "@/components/nexusorb";
 import InventoryManagementSystem from "@/components/SmartInven";
+import SmartInventoryManagement from "@/components/SmartInven";
+import CustomerRetentionTools from "@/components/CusR";
+import CompletePOSSolution from "@/components/inventory";
 
 type Feature = {
   title: string;
@@ -168,9 +171,10 @@ export default function Home() {
         </section>
 
         <SocialCommerceHub />
-        <div className="max-w-7xl mx-auto px-8 sm:px-6">
-          <InventoryManagementSystem />
-        </div>
+        <InventoryManagementSystem />
+        <CompletePOSSolution />
+        <CustomerRetentionTools />
+
         {/* CTA Section */}
         <section className="relative py-16 md:py-24 px-2 sm:px-4 text-center overflow-hidden bg-gradient-to-br from-purple-80 via-[#f4f4f6] to-blue-80">
           <div
