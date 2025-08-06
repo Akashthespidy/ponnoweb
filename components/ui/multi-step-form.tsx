@@ -141,7 +141,7 @@ const MultiStepForm = forwardRef<MultiStepFormHandle, MultiStepFormProps>(
 
         return await response.json();
       } catch (error) {
-        console.error("Error saving form data:", error);
+        //console.error("Error saving form data:", error);
         throw error;
       }
     };

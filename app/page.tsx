@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useRef, useEffect, useState, useCallback } from "react";
+import { useRef, useEffect, useState } from "react";
 import * as LucideIcons from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -35,74 +35,15 @@ type Feature = {
   image: string;
 };
 
-// Add a reusable form component for both Join Waitlist and Get Started
-function WaitlistForm({
-  onSubmit,
-  loading,
-  value,
-  error,
-  onChange,
-  buttonLabel,
-  className = "",
-}: {
-  onSubmit: (e: React.FormEvent) => void;
-  loading: boolean;
-  value: string;
-  error: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  buttonLabel: string;
-  className?: string;
-}) {
-  return (
-    <form
-      onSubmit={onSubmit}
-      className={`flex flex-col sm:flex-row gap-3 items-center justify-center w-full max-w-lg mx-auto relative z-20 ${className}`}
-    >
-      <div className="w-full relative">
-        <input
-          type="email"
-          value={value}
-          onChange={onChange}
-          placeholder="Enter your email"
-          className={`flex-1 h-12 sm:h-14 px-4 sm:px-6 rounded-xl border ${
-            error ? "border-red-500" : "border-black/30"
-          } bg-white/80 text-black placeholder-black/50 focus:outline-none focus:ring-2 ${
-            error ? "focus:ring-red-500" : "focus:ring-black/30"
-          } transition-all w-full backdrop-blur-sm`}
-        />
-        {error && (
-          <p className="absolute -bottom-5 left-0 text-red-500 text-xs mt-1">
-            {error}
-          </p>
-        )}
-      </div>
-      <Button
-        type="submit"
-        className="h-12 sm:h-14 px-6 sm:px-8 rounded-xl bg-black text-white text-base sm:text-lg font-bold hover:bg-neutral-900 transition-all w-full sm:w-auto"
-        disabled={loading}
-      >
-        {loading ? "Loading..." : buttonLabel}
-      </Button>
-    </form>
-  );
-}
-
 export default function Home() {
   const [features, setFeatures] = useState<Feature[]>([]);
   const multiStepFormRef = useRef<MultiStepFormHandle>(null);
   const contactUsRef = useRef<ContactUsHandle>(null);
   const swiperRef = useRef<SwiperCore | null>(null);
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
   const joinWaitlistRef = useRef<HTMLDivElement>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
-
-  // Local state for each form
-  const [heroEmail, setHeroEmail] = useState("");
-  const [heroEmailError, setHeroEmailError] = useState("");
-  const [heroLoading, setHeroLoading] = useState(false);
-
-  const [ctaEmail, setCtaEmail] = useState("");
-  const [ctaEmailError, setCtaEmailError] = useState("");
-  const [ctaLoading, setCtaLoading] = useState(false);
 
   useEffect(() => {
     import("../data/data.json").then((mod) => {
@@ -116,60 +57,53 @@ export default function Home() {
     }
   }, [features]);
 
-  // Handler for Hero (Join Waitlist) form
-  const handleHeroJoinWaitlist = useCallback(
-    (e: React.FormEvent) => {
-      e.preventDefault();
-      if (!heroEmail) {
-        setHeroEmailError("Email is required");
-        return;
-      }
-      if (!/\S+@\S+\.\S+/.test(heroEmail)) {
-        setHeroEmailError("Please enter a valid email address");
-        return;
-      }
-      setHeroEmailError("");
-      setHeroLoading(true);
-      if (multiStepFormRef.current) {
-        multiStepFormRef.current.open({ email: heroEmail }, () => {
-          setHeroEmail("");
-          setHeroLoading(false);
-        });
-      } else {
-        setHeroLoading(false);
-      }
-    },
-    [heroEmail]
-  );
+  const handleJoinWaitlist = (e: React.FormEvent) => {
+    e.preventDefault();
+    e.stopPropagation(); // Added to prevent event bubbling
 
-  // Handler for CTA (Get Started) form
-  const handleCtaJoinWaitlist = useCallback(
-    (e: React.FormEvent) => {
-      e.preventDefault();
-      if (!ctaEmail) {
-        setCtaEmailError("Email is required");
-        return;
-      }
-      if (!/\S+@\S+\.\S+/.test(ctaEmail)) {
-        setCtaEmailError("Please enter a valid email address");
-        return;
-      }
-      setCtaEmailError("");
-      setCtaLoading(true);
-      if (multiStepFormRef.current) {
-        multiStepFormRef.current.open({ email: ctaEmail }, () => {
-          setCtaEmail("");
-          setCtaLoading(false);
-        });
-      } else {
-        setCtaLoading(false);
-      }
-    },
-    [ctaEmail]
-  );
+    if (!email) {
+      setEmailError("Email is required");
+      return;
+    }
+
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setEmailError("Please enter a valid email address");
+      return;
+    }
+
+    setEmailError("");
+
+    if (multiStepFormRef.current) {
+      multiStepFormRef.current.open({ email }, () => {
+        setEmail("");
+      });
+    }
+  };
+
+  const handleButtonClick = () => {
+    if (!email) {
+      setEmailError("Email is required");
+      return;
+    }
+
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setEmailError("Please enter a valid email address");
+      return;
+    }
+
+    setEmailError("");
+
+    if (multiStepFormRef.current) {
+      multiStepFormRef.current.open({ email }, () => {
+        setEmail("");
+      });
+      setIsFormOpen(true);
+    }
+  };
 
   return (
     <div className="relative isolate min-h-screen overflow-hidden bg-gradient-to-br from-[#e8e4f2] via-[#f3f1fa] to-[#fcfbff]">
+      {/* Bubble Background */}
       <div className="fixed inset-0 -z-50">
         <BubbleBackground interactive className="w-full h-full opacity-20" />
       </div>
@@ -199,7 +133,7 @@ export default function Home() {
         {/* Hero Section */}
         <section
           ref={joinWaitlistRef}
-          className="relative py-20 md:py-32 px-2 sm:px-4 text-center overflow-hidden"
+          className="relative py-16 sm:py-20 md:py-32 px-2 sm:px-4 text-center overflow-hidden flex flex-col items-center"
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle,_rgba(255,255,255,0.2)_0%,_transparent_100%)] blur-[160px] -z-10" />
           <h1 className="text-black text-4xl sm:text-6xl md:text-7xl font-extrabold leading-tight mb-6 tracking-tight drop-shadow">
@@ -214,21 +148,42 @@ export default function Home() {
             sales, operations, and customer management in one powerful platform.
           </p>
 
-          <WaitlistForm
-            onSubmit={handleHeroJoinWaitlist}
-            loading={heroLoading}
-            value={heroEmail}
-            error={heroEmailError}
-            onChange={(e) => {
-              setHeroEmail(e.target.value);
-              if (heroEmailError) setHeroEmailError("");
-            }}
-            buttonLabel="Join Waitlist"
-          />
+          <form
+            onSubmit={handleJoinWaitlist}
+            className="flex flex-col sm:flex-row gap-3 items-center justify-center w-full max-w-lg mx-auto relative z-20 px-2 sm:px-0"
+          >
+            <div className="w-full relative">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (emailError) setEmailError("");
+                }}
+                placeholder="Enter your email"
+                className={`flex-1 h-12 sm:h-14 px-4 sm:px-6 rounded-xl border ${
+                  emailError ? "border-red-500" : "border-black/30"
+                } bg-white/80 text-black placeholder-black/50 focus:outline-none focus:ring-2 ${
+                  emailError ? "focus:ring-red-500" : "focus:ring-black/30"
+                } transition-all w-full backdrop-blur-sm`}
+              />
+              {emailError && (
+                <p className="absolute -bottom-5 left-0 text-red-500 text-xs mt-1">
+                  {emailError}
+                </p>
+              )}
+            </div>
+            <Button
+              type="submit"
+              className="h-12 sm:h-14 px-6 sm:px-8 rounded-xl bg-black text-white text-base sm:text-lg font-bold hover:bg-neutral-900 transition-all w-full sm:w-auto"
+            >
+              Join Waitlist
+            </Button>
+          </form>
         </section>
 
         {/* Features Section */}
-        <section className="py-16 md:py-20 px-2 sm:px-4 relative z-10">
+        <section className="py-10 sm:py-14 md:py-20 px-2 sm:px-4">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-8 md:mb-12">
               <h2 className="text-black text-3xl sm:text-5xl md:text-7xl font-extrabold tracking-tight mb-4 md:mb-8 drop-shadow">
@@ -238,19 +193,18 @@ export default function Home() {
                 Everything you need to manage and grow your business efficiently
               </p>
             </div>
-
-            {/* Added components with proper z-index and isolation */}
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col gap-12 md:gap-16 lg:gap-20 items-start md:items-start">
-              <div className="w-full md:ml-8 lg:ml-16">
+            {/* Responsive feature grid */}
+            <div className="w-full flex flex-col gap-10 md:gap-14 lg:gap-20 items-center md:items-start">
+              <div className="w-full md:w-11/12 lg:w-4/5 xl:w-3/4 mx-auto md:ml-8 lg:ml-16">
                 <SocialCommerceHub />
               </div>
-              <div className="w-full md:ml-8 lg:ml-16">
+              <div className="w-full md:w-11/12 lg:w-4/5 xl:w-3/4 mx-auto md:ml-8 lg:ml-16">
                 <InventoryManagementSystem />
               </div>
-              <div className="w-full md:ml-8 lg:ml-16">
+              <div className="w-full md:w-11/12 lg:w-4/5 xl:w-3/4 mx-auto md:ml-8 lg:ml-16">
                 <CompletePOSSolution />
               </div>
-              <div className="w-full md:ml-8 lg:ml-16">
+              <div className="w-full md:w-11/12 lg:w-4/5 xl:w-3/4 mx-auto md:ml-8 lg:ml-16">
                 <CustomerRetentionTools />
               </div>
             </div>
@@ -258,12 +212,12 @@ export default function Home() {
         </section>
 
         {/* CTA Section */}
-        <section className="relative py-16 md:py-24 px-2 sm:px-4 text-center overflow-hidden bg-gradient-to-br from-purple-80 via-[#f4f4f6] to-blue-80">
+        <section className="relative py-10 sm:py-16 md:py-24 px-2 sm:px-4 text-center overflow-hidden bg-gradient-to-br from-purple-80 via-[#f4f4f6] to-blue-80 flex flex-col items-center">
           <div
             className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(244,244,255,0.10)_0%,_rgba(233,234,254,0.05)_30%,_transparent_120%)] blur-[100px] -z-10"
             aria-hidden="true"
           />
-          <div className="max-w-4xl mx-auto text-center">
+          <div className="max-w-4xl mx-auto text-center px-2 sm:px-0">
             <h2 className="text-gray-900 text-3xl sm:text-5xl font-bold mb-6 sm:mb-10 tracking-tight drop-shadow-md">
               Ready to transform your business?
             </h2>
@@ -272,17 +226,38 @@ export default function Home() {
               and drive growth.
             </p>
 
-            <WaitlistForm
-              onSubmit={handleCtaJoinWaitlist}
-              loading={ctaLoading}
-              value={ctaEmail}
-              error={ctaEmailError}
-              onChange={(e) => {
-                setCtaEmail(e.target.value);
-                if (ctaEmailError) setCtaEmailError("");
-              }}
-              buttonLabel="Get Started"
-            />
+            <form
+              onSubmit={handleJoinWaitlist}
+              className="flex flex-col sm:flex-row gap-3 items-center justify-center w-full max-w-lg mx-auto relative z-10 px-2 sm:px-0"
+            >
+              <div className="w-full relative">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (emailError) setEmailError("");
+                  }}
+                  placeholder="Enter your email"
+                  className={`flex-1 h-12 sm:h-14 px-4 sm:px-6 rounded-xl border ${
+                    emailError ? "border-red-500" : "border-black/30"
+                  } bg-white/80 text-black placeholder-black/50 focus:outline-none focus:ring-2 ${
+                    emailError ? "focus:ring-red-500" : "focus:ring-black/30"
+                  } transition-all w-full backdrop-blur-sm`}
+                />
+                {emailError && (
+                  <p className="absolute -bottom-5 left-0 text-red-500 text-xs mt-1">
+                    {emailError}
+                  </p>
+                )}
+              </div>
+              <Button
+                type="submit"
+                className="h-12 sm:h-14 px-6 sm:px-8 rounded-xl bg-black text-white text-base sm:text-lg font-bold hover:bg-neutral-900 transition-all w-full sm:w-auto"
+              >
+                Get Started
+              </Button>
+            </form>
 
             <Button
               onClick={() => contactUsRef.current?.open()}

@@ -6,7 +6,7 @@ import { eq } from "drizzle-orm";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    console.log("POST body:", body);
+    //console.log("POST body:", body);
 
     // Validate required fields
     if (!body.email) {
@@ -64,10 +64,10 @@ export async function POST(request: Request) {
         .returning();
     }
 
-    console.log("Saved user:", user);
+    // console.log("Saved user:", user);
     return NextResponse.json({ success: true, user }, { status: 200 });
   } catch (error: any) {
-    console.error("Error saving to waitlist:", error);
+    //console.error("Error saving to waitlist:", error);
 
     // Handle unique constraint violation
     if (error.code === "23505") {
