@@ -24,11 +24,12 @@ export async function POST(request: Request) {
       );
     }
 
-    // Insert or update in database
+    // Insert or update in database with optimized query
     const existingUser = await db
       .select()
       .from(waitlistUsers)
       .where(eq(waitlistUsers.email, body.email))
+      .limit(1)
       .then((res) => res[0]);
 
     let user;
@@ -64,7 +65,7 @@ export async function POST(request: Request) {
     }
 
     console.log("Saved user:", user);
-    return NextResponse.json(user);
+    return NextResponse.json({ success: true, user }, { status: 200 });
   } catch (error: any) {
     console.error("Error saving to waitlist:", error);
 

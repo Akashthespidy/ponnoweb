@@ -17,6 +17,16 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return NextResponse.json(
+        { error: "Please enter a valid email address" },
+        { status: 400 }
+      );
+    }
+
+    // Optimized database insert
     const [result] = await db
       .insert(contactMessages)
       .values({
@@ -25,11 +35,18 @@ export async function POST(req: NextRequest) {
       })
       .returning({ id: contactMessages.id });
 
-    return NextResponse.json({ success: true, id: result.id }, { status: 201 });
+    return NextResponse.json(
+      {
+        success: true,
+        id: result.id,
+        message: "Message sent successfully",
+      },
+      { status: 201 }
+    );
   } catch (err) {
     console.error("Error saving contact message:", err);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "Internal server error. Please try again later." },
       { status: 500 }
     );
   }
