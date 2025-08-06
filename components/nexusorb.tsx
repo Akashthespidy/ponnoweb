@@ -113,7 +113,6 @@ const IconWrapper = ({
 
 const SocialMediaOrb = () => {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
-
   const socialIcons = [
     {
       id: 1,
@@ -161,7 +160,7 @@ const SocialMediaOrb = () => {
         <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
           Unified Social Commerce Platform
         </h2>
-        <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
+        <p className="text-xl text-gray-600 leading-relaxed">
           Handle <span className="font-semibold text-blue-600">Facebook</span>,{" "}
           <span className="font-semibold text-pink-600">Instagram</span>,{" "}
           <span className="font-semibold text-green-600">WhatsApp</span> orders
@@ -209,7 +208,6 @@ const SocialMediaOrb = () => {
               const endY =
                 svgCenter +
                 (radius - outerIconRadius) * Math.sin(angleInRadians);
-
               return (
                 <line
                   key={`line-${icon.id}`}
@@ -250,7 +248,6 @@ const SocialMediaOrb = () => {
             const angleInRadians = angleInDegrees * (Math.PI / 180);
             const x = radius * Math.cos(angleInRadians);
             const y = radius * Math.sin(angleInRadians);
-
             const iconStyle = {
               transform: `translate(${x}px, ${y}px)`,
             };
@@ -297,7 +294,6 @@ export default function SocialCommerceHub() {
           .animate-float {
             animation: float 4s ease-in-out infinite;
           }
-
           @keyframes breathing-glow {
             0% { box-shadow: 0 0 20px 0px rgba(59, 130, 246, 0.3); }
             50% { box-shadow: 0 0 35px 10px rgba(59, 130, 246, 0.1); }

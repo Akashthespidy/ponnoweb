@@ -60,19 +60,15 @@ export default function Home() {
   const handleJoinWaitlist = (e: React.FormEvent) => {
     e.preventDefault();
     e.stopPropagation(); // Added to prevent event bubbling
-
     if (!email) {
       setEmailError("Email is required");
       return;
     }
-
     if (!/\S+@\S+\.\S+/.test(email)) {
       setEmailError("Please enter a valid email address");
       return;
     }
-
     setEmailError("");
-
     if (multiStepFormRef.current) {
       multiStepFormRef.current.open({ email }, () => {
         setEmail("");
@@ -85,14 +81,11 @@ export default function Home() {
       setEmailError("Email is required");
       return;
     }
-
     if (!/\S+@\S+\.\S+/.test(email)) {
       setEmailError("Please enter a valid email address");
       return;
     }
-
     setEmailError("");
-
     if (multiStepFormRef.current) {
       multiStepFormRef.current.open({ email }, () => {
         setEmail("");
@@ -107,7 +100,6 @@ export default function Home() {
       <div className="fixed inset-0 -z-50">
         <BubbleBackground interactive className="w-full h-full opacity-20" />
       </div>
-
       <div className="relative z-10">
         {/* Header */}
         <header className="sticky top-0 z-[100] flex flex-col md:flex-row items-center justify-between border-b border-black/10 px-4 sm:px-6 md:px-10 py-3 backdrop-blur-md bg-transparent gap-2 md:gap-0">
@@ -147,7 +139,6 @@ export default function Home() {
             Ponno streamlines your workflow with intuitive tools that unify
             sales, operations, and customer management in one powerful platform.
           </p>
-
           <form
             onSubmit={handleJoinWaitlist}
             className="flex flex-col sm:flex-row gap-3 items-center justify-center w-full max-w-lg mx-auto relative z-20 px-2 sm:px-0"
@@ -193,18 +184,18 @@ export default function Home() {
                 Everything you need to manage and grow your business efficiently
               </p>
             </div>
-            {/* Responsive feature grid */}
-            <div className="w-full flex flex-col gap-10 md:gap-14 lg:gap-20 items-center md:items-start">
-              <div className="w-full md:w-11/12 lg:w-4/5 xl:w-3/4 mx-auto md:ml-8 lg:ml-16">
+            {/* Responsive feature grid - CENTERED ON ALL SCREENS */}
+            <div className="w-full flex flex-col gap-10 md:gap-14 lg:gap-20 items-center">
+              <div className="w-full md:w-11/12 lg:w-4/5 xl:w-3/4 mx-auto">
                 <SocialCommerceHub />
               </div>
-              <div className="w-full md:w-11/12 lg:w-4/5 xl:w-3/4 mx-auto md:ml-8 lg:ml-16">
+              <div className="w-full md:w-11/12 lg:w-4/5 xl:w-3/4 mx-auto">
                 <InventoryManagementSystem />
               </div>
-              <div className="w-full md:w-11/12 lg:w-4/5 xl:w-3/4 mx-auto md:ml-8 lg:ml-16">
+              <div className="w-full md:w-11/12 lg:w-4/5 xl:w-3/4 mx-auto">
                 <CompletePOSSolution />
               </div>
-              <div className="w-full md:w-11/12 lg:w-4/5 xl:w-3/4 mx-auto md:ml-8 lg:ml-16">
+              <div className="w-full md:w-11/12 lg:w-4/5 xl:w-3/4 mx-auto">
                 <CustomerRetentionTools />
               </div>
             </div>
@@ -225,7 +216,6 @@ export default function Home() {
               Join forward-thinking companies using Ponno to simplify operations
               and drive growth.
             </p>
-
             <form
               onSubmit={handleJoinWaitlist}
               className="flex flex-col sm:flex-row gap-3 items-center justify-center w-full max-w-lg mx-auto relative z-10 px-2 sm:px-0"
@@ -258,7 +248,6 @@ export default function Home() {
                 Get Started
               </Button>
             </form>
-
             <Button
               onClick={() => contactUsRef.current?.open()}
               className="mt-4 h-12 sm:h-14 px-6 sm:px-8 rounded-xl border border-black/10 bg-white/30 backdrop-blur-sm text-black text-base sm:text-lg font-medium hover:bg-white/50 transition-all w-full sm:w-auto"

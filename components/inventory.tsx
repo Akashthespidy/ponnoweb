@@ -255,7 +255,7 @@ const POSOrb = () => {
         <h2 className="text-4xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
           Complete POS Solution
         </h2>
-        <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
+        <p className="text-xl text-gray-600 leading-relaxed">
           Sell <span className="font-semibold text-green-600">in-person</span>{" "}
           and <span className="font-semibold text-blue-600">online</span> with
           the same system.{" "}
@@ -265,11 +265,11 @@ const POSOrb = () => {
           <span className="font-semibold text-pink-600">track everything</span>.
         </p>
         {/* Active feature description */}
-        <div className="bg-white/80 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-200 dark:border-gray-700 transition-all duration-500">
-          <h3 className="font-bold text-lg mb-1 text-gray-800 dark:text-white">
+        <div className="bg-white/80 p-4 rounded-xl border border-gray-200 transition-all duration-500">
+          <h3 className="font-bold text-lg mb-1 text-gray-800">
             {posFeatures.find((f) => f.id === activeId)?.name}
           </h3>
-          <p className="text-gray-600 dark:text-gray-300">
+          <p className="text-gray-600">
             {posFeatures.find((f) => f.id === activeId)?.description}
           </p>
         </div>
@@ -290,13 +290,14 @@ const POSOrb = () => {
                   className: "w-5 h-5",
                 })}
               </div>
-              <span className="text-sm font-medium text-black-800 dark:text-gray-200">
+              <span className="text-sm font-medium text-gray-800">
                 {feature.name}
               </span>
             </div>
           ))}
         </div>
       </div>
+
       {/* Right side - Interactive Orb */}
       <div className="relative w-[420px] h-[420px] scale-75 md:scale-90">
         {/* SVG container for all connecting lines */}
@@ -325,6 +326,7 @@ const POSOrb = () => {
             })}
           </g>
         </svg>
+
         {/* The main container that acts as the center for the circle */}
         <div className="absolute top-1/2 left-1/2">
           {/* Center Icon - POS Hub */}
@@ -339,6 +341,7 @@ const POSOrb = () => {
               <POSCenterIcon />
             </IconWrapper>
           </div>
+
           {/* Mapping over the features to place them */}
           {posFeatures.map((feature, i) => {
             const angleInDegrees = -90 + i * 72;
@@ -348,6 +351,7 @@ const POSOrb = () => {
             const iconStyle = {
               transform: `translate(${x}px, ${y}px)`,
             };
+
             return (
               <div
                 key={feature.id}
@@ -406,10 +410,12 @@ export default function CompletePOSSolution() {
           }
         `}
       </style>
+
       {/* Enhanced background with a radial gradient */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(74,222,128,0.1),rgba(255,255,255,0))]"></div>
       </div>
+
       <div className="relative z-10 container mx-auto">
         <POSOrb />
       </div>

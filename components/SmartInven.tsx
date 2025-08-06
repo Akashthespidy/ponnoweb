@@ -225,9 +225,9 @@ const IconWrapper = ({
       ${
         isHighlighted
           ? `${
-              bgColor || "dark:bg-gray-700/50 bg-gray-100/80"
-            } border-blue-400/50 dark:shadow-blue-500/20 shadow-blue-400/30 shadow-2xl animate-breathing-glow`
-          : `dark:bg-white/5 bg-white/60 dark:border-white/20 border-gray-300/60 ${
+              bgColor || "bg-gray-100/80"
+            } border-blue-400/50 shadow-blue-400/30 shadow-2xl animate-breathing-glow`
+          : `bg-white/60 border-gray-300/60 ${
               !isActive && !isHovered && "animate-float"
             }`
       }
@@ -340,6 +340,7 @@ const IconGrid = () => {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+
     let animationFrameId: number;
 
     const render = () => {
@@ -359,6 +360,7 @@ const IconGrid = () => {
       });
       animationFrameId = window.requestAnimationFrame(render);
     };
+
     render();
     return () => window.cancelAnimationFrame(animationFrameId);
   }, []);
@@ -369,10 +371,12 @@ const IconGrid = () => {
       setActiveId((prevId) => {
         const currentIndex = outerIcons.findIndex((icon) => icon.id === prevId);
         const nextIndex = (currentIndex + 1) % outerIcons.length;
+
         // Emit particles from the new active icon's position
         const pos = getIconPosition(nextIndex);
         const iconCenterX = svgCenter + pos.transformX;
         const iconCenterY = svgCenter + pos.transformY;
+
         for (let i = 0; i < 20; i++) {
           particlesRef.current.push({
             x: iconCenterX,
@@ -383,9 +387,11 @@ const IconGrid = () => {
             life: Math.random() * 60,
           });
         }
+
         return outerIcons[nextIndex].id;
       });
     }, 2500);
+
     return () => clearInterval(interval);
   }, [outerIcons, getIconPosition, svgCenter]);
 
@@ -397,6 +403,7 @@ const IconGrid = () => {
         height={svgSize}
         className="absolute top-0 left-0 pointer-events-none z-10"
       ></canvas>
+
       <svg width={svgSize} height={svgSize} className="absolute top-0 left-0">
         <defs>
           <filter id="glow_v6">
@@ -429,13 +436,14 @@ const IconGrid = () => {
                     filter: isLineActive ? "url(#glow_v6)" : "none",
                     transition: "all 1.2s ease-in-out",
                   }}
-                  className="dark:stroke-gray-600"
+                  className="stroke-gray-600"
                 />
               );
             });
           })}
         </g>
       </svg>
+
       <div className="absolute top-1/2 left-1/2">
         <div className="absolute -translate-x-1/2 -translate-y-1/2 z-20">
           <IconWrapper
@@ -445,9 +453,11 @@ const IconGrid = () => {
             <InventoryCenterIcon />
           </IconWrapper>
         </div>
+
         {outerIcons.map((icon, i) => {
           const { transformX, transformY } = getIconPosition(i);
           const isActive = activeId === icon.id;
+
           return (
             <div
               key={icon.id}
@@ -508,17 +518,16 @@ export default function SmartInventoryManagement() {
           .animate-breathing-glow {
             animation: breathing-glow 4s ease-in-out infinite;
           }
-          .dark .animate-breathing-glow {
-            animation: breathing-glow 4s ease-in-out infinite;
-          }
-          :not(.dark) .animate-breathing-glow {
+          .animate-breathing-glow-light {
             animation: breathing-glow-light 4s ease-in-out infinite;
           }
         `}
       </style>
+
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(72,187,120,0.1),rgba(255,255,255,0))] dark:bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(72,187,120,0.3),rgba(255,255,255,0))]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(72,187,120,0.1),rgba(255,255,255,0))]"></div>
       </div>
+
       <div className="relative z-10 container mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-center gap-12 p-8 max-w-6xl mx-auto">
           {/* Left side - Text content */}
@@ -526,7 +535,7 @@ export default function SmartInventoryManagement() {
             <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
               Smart Inventory Management
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
+            <p className="text-xl text-gray-600 leading-relaxed">
               Real-time stock tracking, low-stock alerts, and bulk editing.
               Never run out of bestsellers again.
             </p>
@@ -546,13 +555,14 @@ export default function SmartInventoryManagement() {
                       {icon.component}
                     </div>
                   </div>
-                  <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
+                  <span className="text-sm font-medium text-gray-800">
                     {icon.name}
                   </span>
                 </div>
               ))}
             </div>
           </div>
+
           {/* Right side - Interactive Orb */}
           <div className="relative w-[450px] h-[450px] scale-75 md:scale-90">
             {" "}

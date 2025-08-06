@@ -232,7 +232,7 @@ const RetentionOrb = () => {
         <h2 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
           Customer Retention Tools
         </h2>
-        <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
+        <p className="text-xl text-gray-600 leading-relaxed">
           Reduce churn and boost repeat purchases with our{" "}
           <span className="font-semibold text-purple-600">
             abandoned cart recovery
@@ -246,11 +246,11 @@ const RetentionOrb = () => {
           that actually convert.
         </p>
         {/* Active tool description */}
-        <div className="bg-white/80 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-200 dark:border-gray-700 transition-all duration-500">
-          <h3 className="font-bold text-lg mb-1 text-gray-800 dark:text-white">
+        <div className="bg-white/80 p-4 rounded-xl border border-gray-200 transition-all duration-500">
+          <h3 className="font-bold text-lg mb-1 text-gray-800">
             {retentionTools.find((t) => t.id === activeId)?.name}
           </h3>
-          <p className="text-gray-600 dark:text-gray-300">
+          <p className="text-gray-600">
             {retentionTools.find((t) => t.id === activeId)?.description}
           </p>
         </div>
@@ -271,13 +271,14 @@ const RetentionOrb = () => {
                   className: "w-4 h-4",
                 })}
               </div>
-              <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
+              <span className="text-sm font-medium text-gray-800">
                 {tool.name}
               </span>
             </div>
           ))}
         </div>
       </div>
+
       {/* Right side - Interactive Orb */}
       <div className="relative w-[380px] h-[380px] scale-75 md:scale-90">
         {/* SVG container for all connecting lines */}
@@ -306,6 +307,7 @@ const RetentionOrb = () => {
             })}
           </g>
         </svg>
+
         {/* The main container that acts as the center for the circle */}
         <div className="absolute top-1/2 left-1/2">
           {/* Center Icon - Retention Hub */}
@@ -314,6 +316,7 @@ const RetentionOrb = () => {
               <RetentionCenterIcon />
             </IconWrapper>
           </div>
+
           {/* Mapping over the tools to place them */}
           {retentionTools.map((tool, i) => {
             const angleInDegrees = -90 + i * 72;
@@ -323,6 +326,7 @@ const RetentionOrb = () => {
             const iconStyle = {
               transform: `translate(${x}px, ${y}px)`,
             };
+
             return (
               <div
                 key={tool.id}
@@ -374,10 +378,12 @@ export default function CustomerRetentionTools() {
           }
         `}
       </style>
+
       {/* Enhanced background with a radial gradient */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(192,132,252,0.1),rgba(255,255,255,0))]"></div>
       </div>
+
       <div className="relative z-10 container mx-auto">
         <RetentionOrb />
       </div>
