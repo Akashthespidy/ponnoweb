@@ -155,7 +155,7 @@ const SocialMediaOrb = () => {
   const svgCenter = svgSize / 2;
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center gap-12 p-8 max-w-6xl mx-auto">
+    <div className="flex flex-col md:flex-row items-center justify-center gap-12 p-6 max-w-6xl mx-auto">
       {/* Left side - Description */}
       <div className="md:w-1/2 space-y-6">
         <h2 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
